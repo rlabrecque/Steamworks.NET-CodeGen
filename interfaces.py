@@ -466,17 +466,15 @@ def parse_func(f, interface, func):
 
             functionBody.append("\t\t\tIntPtr " + a + "2 = Marshal.AllocHGlobal(" + cast + outstringsize[i].name + ");")
 
+    indentlevel = "\t\t\t"
     if stringargs:
-        strReturnable = "\t" + strReturnable
+        indentlevel += "\t"
         for a in stringargs:
             functionBody.append("\t\t\tusing (var " + a + "2 = new InteropHelp.UTF8StringHandle(" + a + "))")
 
         functionBody[-1] += " {"
 
-    functionBody.append("\t\t\t{0}{1}NativeMethods.{2}({3});".format(strReturnable, strCast, strEntryPoint, argnames))
-
-    if stringargs:
-        functionBody.append("\t\t\t}")
+    functionBody.append("{0}{1}{2}NativeMethods.{3}({4});".format(indentlevel, strReturnable, strCast, strEntryPoint, argnames))
 
     if outstringargs:
         retcmp = "ret != 0"
@@ -486,10 +484,13 @@ def parse_func(f, interface, func):
             retcmp = "ret != -1"
         retcmp = g_SpecialOutStringRetCmp.get(strEntryPoint, retcmp)
         for a in outstringargs:
-            functionBody.append("\t\t\t" + a + " = " + retcmp + " ? InteropHelp.PtrToStringUTF8(" + a + "2) : null;")
+            functionBody.append(indentlevel + a + " = " + retcmp + " ? InteropHelp.PtrToStringUTF8(" + a + "2) : null;")
             if strEntryPoint != "ISteamRemoteStorage_GetUGCDetails":
-                functionBody.append("\t\t\tMarshal.FreeHGlobal(" + a + "2);")
-        functionBody.append("\t\t\treturn ret;")
+                functionBody.append(indentlevel + "Marshal.FreeHGlobal(" + a + "2);")
+        functionBody.append(indentlevel + "return ret;")
+
+    if stringargs:
+        functionBody.append("\t\t\t}")
 
     comments = func.comments
     if func.linecomment:
