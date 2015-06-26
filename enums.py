@@ -103,7 +103,6 @@ def main(parser):
             out.write(f.read())
         for line in lines:
             out.write(line + "\n")
-        out.write("\t}\n")
         out.write("}\n")
 
 if __name__ == "__main__":
