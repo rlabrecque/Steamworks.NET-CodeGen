@@ -100,10 +100,10 @@ def main(parser):
 
     with open("autogen/SteamEnums.cs", "wb") as out:
         with open("header.txt", "r") as f:
-            out.write(f.read())
+            out.write(bytes(f.read(), "utf-8"))
         for line in lines:
-            out.write(line + "\n")
-        out.write("}\n")
+            out.write(bytes(line + "\n", "utf-8"))
+        out.write(bytes("}\n", "utf-8"))
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

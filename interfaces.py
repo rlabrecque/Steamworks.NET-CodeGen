@@ -328,15 +328,15 @@ def main(parser):
         parse(f)
 
     with open("autogen/NativeMethods.cs", "wb") as out:
-        out.write(HEADER)
-        out.write("\tinternal static class NativeMethods {\n")
-        out.write("\t\tinternal const string NativeLibraryName = \"CSteamworks\";\n")
+        out.write(bytes(HEADER, "utf-8"))
+        out.write(bytes("\tinternal static class NativeMethods {\n", "utf-8"))
+        out.write(bytes("\t\tinternal const string NativeLibraryName = \"CSteamworks\";\n", "utf-8"))
         with open("steam_api.txt", "r") as f:
-            out.write(f.read())
+            out.write(bytes(f.read(), "utf-8"))
         for line in g_NativeMethods:
-            out.write(line + "\n")
-        out.write('\t}\n')
-        out.write('}\n')
+            out.write(bytes(line + "\n", "utf-8"))
+        out.write(bytes("\t}\n", "utf-8"))
+        out.write(bytes("}\n", "utf-8"))
 
 
 def parse(f):
@@ -352,11 +352,11 @@ def parse(f):
         parse_interface(f, interface)
 
     if g_Output:
-        with open('autogen/' + os.path.splitext(f.name)[0] + '.cs', 'wb',) as out:
-            out.write(HEADER)
+        with open('autogen/' + os.path.splitext(f.name)[0] + '.cs', 'wb') as out:
+            out.write(bytes(HEADER, "utf-8"))
             for line in g_Output:
-                out.write(line + "\n")
-            out.write('}')  # Namespace
+                out.write(bytes(line + "\n", "utf-8"))
+            out.write(bytes("}", "utf-8"))  # Namespace
 
 
 def parse_interface(f, interface):

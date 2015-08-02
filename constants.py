@@ -151,12 +151,12 @@ def main(parser):
 
     with open("autogen/SteamConstants.cs", "wb") as out:
         with open("header.txt", "r") as f:
-            out.write(f.read())
-        out.write("\tpublic static class Constants {\n")
+            out.write(bytes(f.read(), "utf-8"))
+        out.write(bytes("\tpublic static class Constants {\n", "utf-8"))
         for line in lines:
-            out.write("\t\t" + line + "\n")
-        out.write("\t}\n")
-        out.write("}\n")
+            out.write(bytes("\t\t" + line + "\n", "utf-8"))
+        out.write(bytes("\t}\n", "utf-8"))
+        out.write(bytes("}\n", "utf-8"))
 
 
 def parse_defines(parser):
