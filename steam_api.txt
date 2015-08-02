@@ -29,8 +29,6 @@
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamAPI_Init();
 #endif
-
-		// Steamworks.NET handles registering and running callbacks itself, these are the passthroughs to Steams implementation. These shouldn't ever be needed.
 		[DllImport("CSteamworks", EntryPoint = "RunCallbacks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_RunCallbacks();
 
@@ -105,6 +103,12 @@
 		public static extern IntPtr SteamMusic();
 		[DllImport("CSteamworks", EntryPoint = "SteamMusicRemote", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamMusicRemote();
+		[DllImport("CSteamworks", EntryPoint = "SteamHTMLSurface", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamHTMLSurface();
+		[DllImport("CSteamworks", EntryPoint = "SteamInventory", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamInventory();
+		[DllImport("CSteamworks", EntryPoint = "SteamVideo", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamVideo();
 #endregion
 #region steam_gameserver.h
 		[DllImport("CSteamworks", EntryPoint = "GameServer_InitSafe", CallingConvention = CallingConvention.Cdecl)]
@@ -151,6 +155,10 @@
 		public static extern IntPtr SteamGameServerStats();
 		[DllImport("CSteamworks", EntryPoint = "SteamGameServerHTTP", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamGameServerHTTP();
+		[DllImport("CSteamworks", EntryPoint = "SteamGameServerInventory", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamGameServerInventory();
+		[DllImport("CSteamworks", EntryPoint = "SteamGameServerUGC", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamGameServerUGC();
 #endregion
 #region steamencryptedappticket.h
 		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BDecryptTicket")]
