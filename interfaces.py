@@ -227,6 +227,7 @@ g_SpecialArgsDict = {
         "pubDest": "byte[]",
     },
 
+    # GameServer Copies
     "ISteamGameServerHTTP_GetHTTPResponseHeaderValue": {
         "pHeaderValueBuffer": "byte[]",
     },
@@ -253,6 +254,15 @@ g_SpecialArgsDict = {
     },
     "ISteamGameServerUtils_GetImageRGBA": {
         "pubDest": "byte[]",
+    },
+    "ISteamGameServerUGC_CreateQueryUGCDetailsRequest": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+    "ISteamGameServerUGC_GetQueryUGCChildren": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+    "ISteamGameServerUGC_GetSubscribedItems": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
     },
 
     # This is a little nicity that we provide, I don't know why Valve doesn't just change it.
