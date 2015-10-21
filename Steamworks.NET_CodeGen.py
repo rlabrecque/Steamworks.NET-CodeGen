@@ -4,6 +4,7 @@ import interfaces
 import constants
 import enums
 import structs
+import typedefs
 
 def main():
     if len(sys.argv) != 2:
@@ -17,6 +18,7 @@ def main():
     constants.main(___parser)
     enums.main(___parser)
     structs.main(___parser)
+    typedefs.main(___parser)
 
 if __name__ == "__main__":
     main()
