@@ -143,7 +143,10 @@ g_ReadOnlyValues = {
 
 
 def main(parser):
-    shutil.rmtree("types/")
+    try:
+        shutil.rmtree("types/")
+    except FileNotFoundError:
+        pass
 
     try:
         shutil.copytree("CustomTypes/", "types/")
