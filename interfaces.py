@@ -114,10 +114,10 @@ g_SpecialArgsDict = {
         "handlesOut": "ControllerHandle_t[]",
     },
     "ISteamController_GetDigitalActionOrigins": {
-        "originsOut": "ControllerHandle_t[]",
+        "originsOut": "EControllerActionOrigin[]",
     },
     "ISteamController_GetAnalogActionOrigins": {
-        "originsOut": "ControllerHandle_t[]",
+        "originsOut": "EControllerActionOrigin[]",
     },
     "ISteamGameServer_SendUserConnectAndAuthenticate": {
         "pvAuthBlob": "byte[]",
