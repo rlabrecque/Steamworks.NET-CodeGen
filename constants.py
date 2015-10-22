@@ -35,7 +35,6 @@ g_SkippedDefines = (
     "END_DEFINE_CALLBACK_12()",
     "END_DEFINE_CALLBACK_13()",
     "END_DEFINE_CALLBACK_14()",
-    "SteamControllerState_t",
     "INVALID_HTTPCOOKIE_HANDLE",
     "BChatMemberStateChangeRemoved(",
     "STEAM_COLOR_RED(",
@@ -132,6 +131,9 @@ g_CustomDefines = {
     # "Name": ("Type", "Value"),
     "MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE": ("short", "-1"),
     "k_nMaxLobbyKeyLength": ("byte", None),
+    "STEAM_CONTROLLER_HANDLE_ALL_CONTROLLERS": ("ulong", "0xFFFFFFFFFFFFFFFF"),
+    "STEAM_CONTROLLER_MIN_ANALOG_ACTION_DATA": ("float", "-1.0f"),
+    "STEAM_CONTROLLER_MAX_ANALOG_ACTION_DATA": ("float", "1.0f"),
 }
 
 

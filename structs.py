@@ -40,7 +40,8 @@ g_CustomPackSize = {
     "ValidateAuthTicketResponse_t": "4",
 
     # Structs
-    "SteamControllerState_t": "1",
+    "ControllerAnalogActionData_t": "1",
+    "ControllerDigitalActionData_t": "1",
 }
 
 g_SkippedStructs = (

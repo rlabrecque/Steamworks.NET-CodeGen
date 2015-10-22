@@ -110,6 +110,15 @@ g_SpecialArgsDict = {
     "ISteamApps_GetInstalledDepots": {
         "pvecDepots": "DepotId_t[]",
     },
+    "ISteamController_GetConnectedControllers": {
+        "handlesOut": "ControllerHandle_t[]",
+    },
+    "ISteamController_GetDigitalActionOrigins": {
+        "originsOut": "ControllerHandle_t[]",
+    },
+    "ISteamController_GetAnalogActionOrigins": {
+        "originsOut": "ControllerHandle_t[]",
+    },
     "ISteamGameServer_SendUserConnectAndAuthenticate": {
         "pvAuthBlob": "byte[]",
     },
@@ -166,6 +175,12 @@ g_SpecialArgsDict = {
     },
     "ISteamRemoteStorage_FileRead": {
         "pvData": "byte[]",
+    },
+    "ISteamRemoteStorage_FileWriteAsync": {
+        "pvData": "byte[]",
+    },
+    "ISteamRemoteStorage_FileReadAsyncComplete": {
+        "pvBuffer": "byte[]",
     },
     "ISteamRemoteStorage_FileWriteStreamWriteChunk": {
         "pvData": "byte[]",
