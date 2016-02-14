@@ -65,6 +65,7 @@ g_SkippedDefines = (
     "STEAMPS3_MALLOC_OK",
     "S_CALLTYPE",
     "POSIX",
+    "STEAM_PRIVATE_API(",
 
     # TODO: Skip all these once we have typedef autogen hooked up.
     #"MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE",

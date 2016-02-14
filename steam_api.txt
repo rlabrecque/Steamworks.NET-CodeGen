@@ -29,6 +29,10 @@
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamAPI_Init();
 #endif
+
+		[DllImport("CSteamworks", EntryPoint = "ReleaseCurrentThreadMemory", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_ReleaseCurrentThreadMemory();
+
 		[DllImport("CSteamworks", EntryPoint = "RunCallbacks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_RunCallbacks();
 

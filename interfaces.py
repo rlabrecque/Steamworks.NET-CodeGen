@@ -405,8 +405,12 @@ def parse_interface(f, interface):
                 g_Output[-1] = "#if " + func.ifstatements.replace("defined(", "").replace(")", "")
                 lastIfStatement = func.ifstatements
 
+        if func.private:
+            continue
+
         parse_func(f, interface, func)
 
+    # Remove last whitespace
     del g_NativeMethods[-1]
     del g_Output[-1]
 
@@ -551,10 +555,11 @@ def parse_args(strEntryPoint, args):
             argtype = "out " + g_TypeDict.get(potentialtype, potentialtype)
         argtype = g_SpecialArgsDict.get(strEntryPoint, dict()).get(arg.name, argtype)
 
-        if arg.attribute and arg.type:
-            if arg.attribute == "OUT_ARRAY" or arg.attribute == "OUT_ARRAY_CALL" or arg.attribute == "OUT_ARRAY_COUNT" or arg.attribute == "ARRAY_COUNT" or arg.attribute == "ARRAY_COUNT_D":
+        if arg.attribute:
+            if arg.attribute.name == "OUT_ARRAY" or arg.attribute.name == "OUT_ARRAY_CALL" or arg.attribute.name == "OUT_ARRAY_COUNT" or arg.attribute.name == "ARRAY_COUNT" or arg.attribute.name == "ARRAY_COUNT_D":
                 potentialtype = arg.type.rstrip("*").rstrip()
                 argtype = g_TypeDict.get(potentialtype, potentialtype) + "[]"
+            #if arg.attribute.name == "OUT_STRING" or arg.attribute.name == "OUT_STRING_COUNT":  #Unused for now
 
         if arg.type == "MatchMakingKeyValuePair_t **":  # TODO: Fixme - Small Hack... We do this because MatchMakingKeyValuePair's have ARRAY_COUNT() and two **'s, things get broken :(
             argtype = "IntPtr"

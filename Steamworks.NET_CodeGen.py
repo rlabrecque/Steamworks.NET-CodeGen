@@ -8,7 +8,7 @@ import typedefs
 
 def main():
     if len(sys.argv) != 2:
-        print("TODO: Usage Instructions")
+        print("Usage: Steamworks.NET_CodeGen.py path/to/steamworks_header_folder/")
         return
 
     steamworksparser.Settings.fake_gameserver_interfaces = True
