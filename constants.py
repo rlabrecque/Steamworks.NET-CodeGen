@@ -130,7 +130,7 @@ g_SkippedTypedefs = (
 
 g_CustomDefines = {
     # "Name": ("Type", "Value"),
-    "MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE": ("ushort", "-1"),
+    "MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE": ("ushort", "0xFFFF"),
     "k_nMaxLobbyKeyLength": ("byte", None),
     "STEAM_CONTROLLER_HANDLE_ALL_CONTROLLERS": ("ulong", "0xFFFFFFFFFFFFFFFF"),
     "STEAM_CONTROLLER_MIN_ANALOG_ACTION_DATA": ("float", "-1.0f"),
