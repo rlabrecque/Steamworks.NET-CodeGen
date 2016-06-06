@@ -50,9 +50,6 @@ g_UnusedTypedefs = [
     "uint64",
     "uintp",
     "ulint64",
-
-    # SteamUser
-    "HSteamCall",
 ]
 
 g_ReadOnlyValues = {
