@@ -170,6 +170,15 @@ g_SpecialArgsDict = {
     "ISteamNetworking_ReadP2PPacket": {
         "pubDest": "byte[]",
     },
+    "ISteamNetworking_SendDataOnSocket": {
+        "pubData": "byte[]",
+    },
+    "ISteamNetworking_RetrieveDataFromSocket": {
+        "pubDest": "byte[]",
+    },
+    "ISteamNetworking_RetrieveData": {
+        "pubDest": "byte[]",
+    },
     "ISteamRemoteStorage_FileWrite": {
         "pvData": "byte[]",
     },
@@ -267,6 +276,15 @@ g_SpecialArgsDict = {
     "ISteamGameServerNetworking_ReadP2PPacket": {
         "pubDest": "byte[]",
     },
+    "ISteamGameServerNetworking_SendDataOnSocket": {
+        "pubData": "byte[]",
+    },
+    "ISteamGameServerNetworking_RetrieveDataFromSocket": {
+        "pubDest": "byte[]",
+    },
+    "ISteamGameServerNetworking_RetrieveData": {
+        "pubDest": "byte[]",
+    },
     "ISteamGameServerUtils_GetImageRGBA": {
         "pubDest": "byte[]",
     },
@@ -280,7 +298,7 @@ g_SpecialArgsDict = {
         "pvecPublishedFileID": "PublishedFileId_t[]",
     },
 
-    # This is a little nicity that we provide, I don't know why Valve doesn't just change it.
+    # This is a little nicety that we provide, I don't know why Valve doesn't just change it.
     "ISteamFriends_GetFriendCount": {
         "iFriendFlags": "EFriendFlags",
     },
