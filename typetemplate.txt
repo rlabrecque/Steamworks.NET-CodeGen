@@ -5,6 +5,7 @@
 // Changes to this file will be reverted when you update Steamworks.NET
 
 namespace Steamworks {
+	[System.Serializable]
 	public struct {NAME} : System.IEquatable<{NAME}>, System.IComparable<{NAME}> {
 {READONLY}
 		public {TYPE} m_{NAMESTRIPPED};
