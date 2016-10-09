@@ -83,7 +83,7 @@ def main(parser):
                         if substring in field.value:
                             value = value.replace(substring, g_ValueConversionDict[substring], 1)
                             break
-                            
+
                     line += value
                 if field.c.rawlinecomment:
                     line += field.c.rawlinecomment
@@ -103,7 +103,8 @@ def main(parser):
             out.write(bytes(f.read(), "utf-8"))
         for line in lines:
             out.write(bytes(line + "\n", "utf-8"))
-        out.write(bytes("}\n", "utf-8"))
+        out.write(bytes("}\n\n", "utf-8"))
+        out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

@@ -97,14 +97,16 @@ def main(parser):
             out.write(bytes(f.read(), "utf-8"))
         for line in lines:
             out.write(bytes(line + "\n", "utf-8"))
-        out.write(bytes("}\n", "utf-8"))
+        out.write(bytes("}\n\n", "utf-8"))
+        out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
     with open("autogen/SteamCallbacks.cs", "wb") as out:
         with open("header.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         for line in callbacklines:
             out.write(bytes(line + "\n", "utf-8"))
-        out.write(bytes("}\n", "utf-8"))
+        out.write(bytes("}\n\n", "utf-8"))
+        out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
 def parse(struct):
     if struct.name in g_SkippedStructs:

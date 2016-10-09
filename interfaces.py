@@ -379,7 +379,8 @@ def main(parser):
         for line in g_NativeMethods:
             out.write(bytes(line + "\n", "utf-8"))
         out.write(bytes("\t}\n", "utf-8"))
-        out.write(bytes("}\n", "utf-8"))
+        out.write(bytes("}\n\n", "utf-8"))
+        out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
 
 def parse(f):
@@ -399,7 +400,8 @@ def parse(f):
             out.write(bytes(HEADER, "utf-8"))
             for line in g_Output:
                 out.write(bytes(line + "\n", "utf-8"))
-            out.write(bytes("}", "utf-8"))  # Namespace
+            out.write(bytes("}\n\n", "utf-8"))  # Namespace
+            out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
 
 def parse_interface(f, interface):
@@ -542,7 +544,7 @@ def parse_func(f, interface, func):
     comments = func.comments
     if func.linecomment:
         comments.append(func.linecomment)
-        
+
     if comments:
         g_Output.append("\t\t/// <summary>")
         for c in comments:

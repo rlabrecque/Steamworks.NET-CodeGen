@@ -159,7 +159,8 @@ def main(parser):
         for line in lines:
             out.write(bytes("\t\t" + line + "\n", "utf-8"))
         out.write(bytes("\t}\n", "utf-8"))
-        out.write(bytes("}\n", "utf-8"))
+        out.write(bytes("}\n\n", "utf-8"))
+        out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
 
 def parse_defines(parser):
