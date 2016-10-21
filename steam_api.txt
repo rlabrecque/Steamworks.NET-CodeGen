@@ -1,15 +1,8 @@
 #region steam_api.h
 		// Steam API setup & shutdown
-		[DllImport("CSteamworks", EntryPoint = "InitSafe", CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool SteamAPI_InitSafe();
-
-#if DISABLED
-		// This depends on how CSteamworks was compiled. By default it's compiled with VERSION_SAFE_STEAM_API_INTERFACES.
 		[DllImport("CSteamworks", EntryPoint = "Init", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamAPI_Init();
-#endif
 
 		[DllImport("CSteamworks", EntryPoint = "Shutdown", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_Shutdown();
@@ -67,7 +60,6 @@
 		[DllImport("CSteamworks", EntryPoint = "SetTryCatchCallbacks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_SetTryCatchCallbacks([MarshalAs(UnmanagedType.I1)] bool bTryCatchCallbacks);
 
-
 		// steam_api_internal.h
 		[DllImport("CSteamworks", EntryPoint = "GetHSteamUser_", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SteamAPI_GetHSteamUser();
@@ -80,50 +72,6 @@
 
 		[DllImport("CSteamworks", EntryPoint = "SetBreakpadAppID", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_SetBreakpadAppID(uint unAppID);
-
-		// SteamContext Accessors:
-		[DllImport("CSteamworks", EntryPoint = "SteamClient", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamClient();
-		[DllImport("CSteamworks", EntryPoint = "SteamUser", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamUser();
-		[DllImport("CSteamworks", EntryPoint = "SteamFriends", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamFriends();
-		[DllImport("CSteamworks", EntryPoint = "SteamUtils", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamUtils();
-		[DllImport("CSteamworks", EntryPoint = "SteamMatchmaking", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamMatchmaking();
-		[DllImport("CSteamworks", EntryPoint = "SteamUserStats", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamUserStats();
-		[DllImport("CSteamworks", EntryPoint = "SteamApps", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamApps();
-		[DllImport("CSteamworks", EntryPoint = "SteamNetworking", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamNetworking();
-		[DllImport("CSteamworks", EntryPoint = "SteamMatchmakingServers", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamMatchmakingServers();
-		[DllImport("CSteamworks", EntryPoint = "SteamRemoteStorage", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamRemoteStorage();
-		[DllImport("CSteamworks", EntryPoint = "SteamScreenshots", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamScreenshots();
-		[DllImport("CSteamworks", EntryPoint = "SteamHTTP", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamHTTP();
-		[DllImport("CSteamworks", EntryPoint = "SteamUnifiedMessages", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamUnifiedMessages();
-		[DllImport("CSteamworks", EntryPoint = "SteamController", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamController();
-		[DllImport("CSteamworks", EntryPoint = "SteamUGC", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamUGC();
-		[DllImport("CSteamworks", EntryPoint = "SteamAppList", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamAppList();
-		[DllImport("CSteamworks", EntryPoint = "SteamMusic", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamMusic();
-		[DllImport("CSteamworks", EntryPoint = "SteamMusicRemote", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamMusicRemote();
-		[DllImport("CSteamworks", EntryPoint = "SteamHTMLSurface", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamHTMLSurface();
-		[DllImport("CSteamworks", EntryPoint = "SteamInventory", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamInventory();
-		[DllImport("CSteamworks", EntryPoint = "SteamVideo", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamVideo();
 #endregion
 #region steam_gameserver.h
 		[DllImport("CSteamworks", EntryPoint = "GameServer_Init", CallingConvention = CallingConvention.Cdecl)]
@@ -155,26 +103,12 @@
 		[DllImport("CSteamworks", EntryPoint = "SteamInternal_GameServer_Init_", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamInternal_GameServer_Init(uint unIP, ushort usPort, ushort usGamePort, ushort usQueryPort, EServerMode eServerMode, InteropHelp.UTF8StringHandle pchVersionString);
-
-		// SteamGameServerContext Accessors
-		[DllImport("CSteamworks", EntryPoint = "SteamGameServerClient", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamGameServerClient();
-		[DllImport("CSteamworks", EntryPoint = "SteamGameServer", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamGameServer();
-		[DllImport("CSteamworks", EntryPoint = "SteamGameServerUtils", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamGameServerUtils();
-		[DllImport("CSteamworks", EntryPoint = "SteamGameServerNetworking", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamGameServerNetworking();
-		[DllImport("CSteamworks", EntryPoint = "SteamGameServerStats", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamGameServerStats();
-		[DllImport("CSteamworks", EntryPoint = "SteamGameServerHTTP", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamGameServerHTTP();
-		[DllImport("CSteamworks", EntryPoint = "SteamGameServerInventory", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamGameServerInventory();
-		[DllImport("CSteamworks", EntryPoint = "SteamGameServerUGC", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamGameServerUGC();
-		[DllImport("CSteamworks", EntryPoint = "SteamGameServerApps", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamGameServerApps();
+#endregion
+#region SteamAPI Accessors
+        [DllImport("CSteamworks", EntryPoint = "SteamClient_", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr SteamClient();
+        [DllImport("CSteamworks", EntryPoint = "SteamGameServerClient_", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr SteamGameServerClient();
 #endregion
 #region steamencryptedappticket.h
 		[DllImport("sdkencryptedappticket", CallingConvention = CallingConvention.Cdecl, EntryPoint = "SteamEncryptedAppTicket_BDecryptTicket")]

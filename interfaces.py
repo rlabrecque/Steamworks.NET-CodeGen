@@ -15,6 +15,7 @@ g_TypeDict = {
     # Built in types
     "char *": "IntPtr",
     "char **": "out IntPtr",
+    "const char*": "InteropHelp.UTF8StringHandle",
     "const char *": "InteropHelp.UTF8StringHandle",
 
     "const void *": "IntPtr",
@@ -209,6 +210,12 @@ g_SpecialArgsDict = {
     "ISteamUGC_GetSubscribedItems": {
         "pvecPublishedFileID": "PublishedFileId_t[]",
     },
+    "ISteamUGC_StartPlaytimeTracking": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+    "ISteamUGC_StopPlaytimeTracking": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
     "ISteamUnifiedMessages_SendMethod": {
         "pRequestBuffer": "byte[]",
     },
@@ -297,6 +304,12 @@ g_SpecialArgsDict = {
     "ISteamGameServerUGC_GetSubscribedItems": {
         "pvecPublishedFileID": "PublishedFileId_t[]",
     },
+    "ISteamGameServerUGC_StartPlaytimeTracking": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
+    "ISteamGameServerUGC_StopPlaytimeTracking": {
+        "pvecPublishedFileID": "PublishedFileId_t[]",
+    },
 
     # This is a little nicety that we provide, I don't know why Valve doesn't just change it.
     "ISteamFriends_GetFriendCount": {
@@ -314,13 +327,13 @@ g_SpecialArgsDict = {
         "punOutItemsArraySize": "ref uint",
     },
     "ISteamInventory_GetItemDefinitionProperty": {
-        "punValueBufferSize": "ref uint",
+        "punValueBufferSizeOut": "ref uint",
     },
     "ISteamGameServerInventory_GetResultItems": {
         "punOutItemsArraySize": "ref uint",
     },
     "ISteamGameServerInventory_GetItemDefinitionProperty": {
-        "punValueBufferSize": "ref uint",
+        "punValueBufferSizeOut": "ref uint",
     },
 }
 
