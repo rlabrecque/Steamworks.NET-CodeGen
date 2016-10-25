@@ -7,12 +7,17 @@ import structs
 import typedefs
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: Steamworks.NET_CodeGen.py path/to/steamworks_header_folder/")
+    if len(sys.argv) == 2:
+        path = sys.argv[1]
+    elif len(sys.argv) == 1:
+        path = "steam"
+    else:
+        print("Usage: Steamworks.NET_CodeGen.py [path/to/sdk/public/steam]")
+        print("       If a path is not included then a steam/ folder must exist within the cwd.")
         return
 
     steamworksparser.Settings.fake_gameserver_interfaces = True
-    ___parser = steamworksparser.parse(sys.argv[1])
+    ___parser = steamworksparser.parse(path)
 
     interfaces.main(___parser)
     constants.main(___parser)
