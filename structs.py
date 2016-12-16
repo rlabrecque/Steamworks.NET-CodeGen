@@ -68,6 +68,16 @@ g_SpecialFieldTypes = {
     "HTML_NeedsPaint_t": {
         "pBGRA": "IntPtr"
     },
+
+    # These two are returned by a function and the struct needs to be blittable.
+    "ControllerAnalogActionData_t": {
+        "bActive": "byte" # Originally bool
+    },
+
+    "ControllerDigitalActionData_t": {
+        "bState": "byte", # Originally bool
+        "bActive": "byte" # Originally bool
+    }
 }
 
 g_ExplicitStructs = {
