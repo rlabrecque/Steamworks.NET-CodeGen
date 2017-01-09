@@ -329,11 +329,19 @@ g_SpecialArgsDict = {
     "ISteamInventory_GetItemDefinitionProperty": {
         "punValueBufferSizeOut": "ref uint",
     },
+    "ISteamInventory_GetEligiblePromoItemDefinitionIDs": {
+        "punItemDefIDsArraySize": "ref uint",
+    },
+
+    # And the GameServer versions:
     "ISteamGameServerInventory_GetResultItems": {
         "punOutItemsArraySize": "ref uint",
     },
     "ISteamGameServerInventory_GetItemDefinitionProperty": {
         "punValueBufferSizeOut": "ref uint",
+    },
+    "ISteamGameServerInventory_GetEligiblePromoItemDefinitionIDs": {
+        "punItemDefIDsArraySize": "ref uint",
     },
 }
 
@@ -385,6 +393,7 @@ def main(parser):
 
     with open("autogen/NativeMethods.cs", "wb") as out:
         out.write(bytes(HEADER, "utf-8"))
+        out.write(bytes("\t[System.Security.SuppressUnmanagedCodeSecurity()]\n", "utf-8"))
         out.write(bytes("\tinternal static class NativeMethods {\n", "utf-8"))
         out.write(bytes("\t\tinternal const string NativeLibraryName = \"CSteamworks\";\n", "utf-8"))
         with open("steam_api.txt", "r") as f:
