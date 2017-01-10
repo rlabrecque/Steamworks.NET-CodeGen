@@ -360,6 +360,14 @@ g_SpecialOutStringRetCmp = {
     "ISteamFriends_GetFriendMessage": "ret != 0",
 }
 
+g_InsertCode = {
+    "ISteamController_GetConnectedControllers": [
+        "if (handlesOut.Length != Constants.STEAM_CONTROLLER_MAX_COUNT) {",
+        "\tthrow new ArgumentException(\"handlesOut must be the same size as Constants.STEAM_CONTROLLER_MAX_COUNT!\");",
+        "}"
+    ]
+}
+
 g_SkippedTypedefs = (
     "uint8",
     "int8",
@@ -509,6 +517,10 @@ def parse_func(f, interface, func):
         functionBody.append("\t\t\tInteropHelp.TestIfAvailableGameServer();")
     else:
         functionBody.append("\t\t\tInteropHelp.TestIfAvailableClient();")
+
+    if strEntryPoint in g_InsertCode:
+        for line in g_InsertCode[strEntryPoint]:
+            functionBody.append("\t\t\t" + line)
 
     strReturnable = "return "
     if func.returntype == "void":
