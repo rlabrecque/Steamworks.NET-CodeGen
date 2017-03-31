@@ -154,7 +154,7 @@ def main(parser):
         else:
             print('Directory not copied. Error: %s' % e)
 
-    with open("typetemplate.txt", "r") as f:
+    with open("templates/typetemplate.txt", "r") as f:
         template = f.read()
 
     for t in parser.typedefs:

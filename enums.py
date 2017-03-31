@@ -99,7 +99,7 @@ def main(parser):
             lines.append("")
 
     with open("autogen/SteamEnums.cs", "wb") as out:
-        with open("header.txt", "r") as f:
+        with open("templates/header.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         for line in lines:
             out.write(bytes(line + "\n", "utf-8"))

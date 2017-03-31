@@ -390,7 +390,7 @@ def main(parser):
     except OSError:
         pass
 
-    with open("header.txt", "r") as f:
+    with open("templates/header.txt", "r") as f:
         global HEADER
         HEADER = f.read()
 
@@ -401,10 +401,7 @@ def main(parser):
 
     with open("autogen/NativeMethods.cs", "wb") as out:
         out.write(bytes(HEADER, "utf-8"))
-        out.write(bytes("\t[System.Security.SuppressUnmanagedCodeSecurity()]\n", "utf-8"))
-        out.write(bytes("\tinternal static class NativeMethods {\n", "utf-8"))
-        out.write(bytes("\t\tinternal const string NativeLibraryName = \"CSteamworks\";\n", "utf-8"))
-        with open("steam_api.txt", "r") as f:
+        with open("templates/nativemethods.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         for line in g_NativeMethods:
             out.write(bytes(line + "\n", "utf-8"))
