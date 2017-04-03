@@ -615,7 +615,9 @@ def parse_args(strEntryPoint, args):
         if arg.type == "MatchMakingKeyValuePair_t **":  # TODO: Fixme - Small Hack... We do this because MatchMakingKeyValuePair's have ARRAY_COUNT() and two **'s, things get broken :(
             argtype = "IntPtr"
 
-        if argtype.endswith("[]"):
+        # We skip byte[] because it is a primitive type that C# can essentially mmap and get a great perf increase while marshalling.
+        # We need to do this for other primitive types eventually but that will require more testing to make sure nothing breaks.
+        if argtype.endswith("[]") and argtype != "byte[]":
             argtype = "[In, Out] " + argtype
         elif argtype == "bool":
             argtype = "[MarshalAs(UnmanagedType.I1)] " + argtype
