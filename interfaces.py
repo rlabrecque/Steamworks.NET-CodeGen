@@ -230,7 +230,6 @@ g_SpecialArgsDict = {
     },
     "ISteamUser_GetVoice": {
         "pDestBuffer": "byte[]",
-        "pUncompressedDestBuffer": "byte[]",
     },
     "ISteamUser_DecompressVoice": {
         "pCompressed": "byte[]",
@@ -329,6 +328,9 @@ g_SpecialArgsDict = {
     "ISteamInventory_GetItemDefinitionProperty": {
         "punValueBufferSizeOut": "ref uint",
     },
+    "ISteamInventory_GetResultItemProperty": {
+        "punValueBufferSizeOut": "ref uint",
+    },
     "ISteamInventory_GetEligiblePromoItemDefinitionIDs": {
         "punItemDefIDsArraySize": "ref uint",
     },
@@ -340,9 +342,16 @@ g_SpecialArgsDict = {
     "ISteamGameServerInventory_GetItemDefinitionProperty": {
         "punValueBufferSizeOut": "ref uint",
     },
+    "ISteamGameServerInventory_GetResultItemProperty": {
+        "punValueBufferSizeOut": "ref uint",
+    },
     "ISteamGameServerInventory_GetEligiblePromoItemDefinitionIDs": {
         "punItemDefIDsArraySize": "ref uint",
     },
+
+    "ISteamVideo_GetOPFStringForApp": {
+        "pnBufferSize": "ref int"
+    }
 }
 
 g_SpecialWrapperArgsDict = {
@@ -600,6 +609,9 @@ def parse_args(strEntryPoint, args):
 
     getsize = False
     for arg in args:
+        if arg.name.endswith("Deprecated"):
+            continue
+
         argtype = g_TypeDict.get(arg.type, arg.type)
         if argtype.endswith("*"):
             potentialtype = arg.type.rstrip("*").rstrip()
@@ -664,6 +676,7 @@ def parse_args(strEntryPoint, args):
                 getsize = True
 
         argnames += ", "
+
     pinvokeargs = pinvokeargs.rstrip(", ")
     wrapperargs = wrapperargs.rstrip(", ")
     argnames = argnames.rstrip(", ")
