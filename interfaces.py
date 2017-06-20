@@ -228,8 +228,13 @@ g_SpecialArgsDict = {
     "ISteamUser_InitiateGameConnection": {
         "pAuthBlob": "byte[]",
     },
+    "ISteamUser_GetAvailableVoice": {
+        "pcbUncompressed_Deprecated": "IntPtr",
+    },
     "ISteamUser_GetVoice": {
         "pDestBuffer": "byte[]",
+        "pUncompressedDestBuffer_Deprecated": "IntPtr",
+        "nUncompressBytesWritten_Deprecated": "IntPtr",
     },
     "ISteamUser_DecompressVoice": {
         "pCompressed": "byte[]",
@@ -609,9 +614,6 @@ def parse_args(strEntryPoint, args):
 
     getsize = False
     for arg in args:
-        if arg.name.endswith("Deprecated"):
-            continue
-
         argtype = g_TypeDict.get(arg.type, arg.type)
         if argtype.endswith("*"):
             potentialtype = arg.type.rstrip("*").rstrip()
@@ -643,10 +645,12 @@ def parse_args(strEntryPoint, args):
             wrapperargtype = "string"
         elif arg.type == "char *":
             wrapperargtype = "out string"
-        wrapperargs += wrapperargtype + " " + arg.name
-        if arg.default:
-            wrapperargs += " = " + arg.default
-        wrapperargs += ", "
+
+        if not arg.name.endswith("Deprecated"):
+            wrapperargs += wrapperargtype + " " + arg.name
+            if arg.default:
+                wrapperargs += " = " + arg.default
+            wrapperargs += ", "
 
         if argtype.startswith("out"):
             argnames += "out "
@@ -659,6 +663,13 @@ def parse_args(strEntryPoint, args):
             argnames += "new MMKVPMarshaller(" + arg.name + ")"
         elif wrapperargtype.endswith("Response"):
             argnames += "(IntPtr)" + arg.name
+        elif arg.name.endswith("Deprecated"):
+            if argtype == "IntPtr":
+                argnames += "IntPtr.Zero"
+            elif argtype == "bool":
+                argnames += "false"
+            else:
+                argnames += "0"
         else:
             argnames += arg.name
 
