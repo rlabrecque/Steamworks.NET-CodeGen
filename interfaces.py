@@ -87,6 +87,7 @@ g_ReturnTypeDict = {
     "ISteamMusic *": "IntPtr",
     "ISteamMusicRemote *": "IntPtr",
     "ISteamNetworking *": "IntPtr",
+    "ISteamParentalSettings *": "IntPtr",
     "ISteamPS3OverlayRender *": "IntPtr",
     "ISteamRemoteStorage *": "IntPtr",
     "ISteamScreenshots *": "IntPtr",
