@@ -1,4 +1,4 @@
-*.pyc
-autogen/
-types/
-steam/
+/__pycache__/
+/autogen/
+/types/
+/steam/lib/
