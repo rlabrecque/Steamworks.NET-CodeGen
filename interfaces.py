@@ -378,7 +378,7 @@ g_SpecialOutStringRetCmp = {
 g_InsertCode = {
     "ISteamController_GetConnectedControllers": [
         "if (handlesOut.Length != Constants.STEAM_CONTROLLER_MAX_COUNT) {",
-        "\tthrow new ArgumentException(\"handlesOut must be the same size as Constants.STEAM_CONTROLLER_MAX_COUNT!\");",
+        "\tthrow new System.ArgumentException(\"handlesOut must be the same size as Constants.STEAM_CONTROLLER_MAX_COUNT!\");",
         "}"
     ]
 }
@@ -415,7 +415,6 @@ def main(parser):
         parse(f)
 
     with open("autogen/NativeMethods.cs", "wb") as out:
-        out.write(bytes(HEADER, "utf-8"))
         with open("templates/nativemethods.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         for line in g_NativeMethods:
@@ -440,6 +439,7 @@ def parse(f):
     if g_Output:
         with open('autogen/' + os.path.splitext(f.name)[0] + '.cs', 'wb') as out:
             out.write(bytes(HEADER, "utf-8"))
+            out.write(bytes("\nnamespace Steamworks {\n", "utf-8"))
             for line in g_Output:
                 out.write(bytes(line + "\n", "utf-8"))
             out.write(bytes("}\n\n", "utf-8"))  # Namespace
@@ -515,12 +515,12 @@ def parse_func(f, interface, func):
     outstringargs = args[4][0]
     outstringsize = args[4][1]
 
-    g_NativeMethods.append("\t\t[DllImport(NativeLibraryName, CallingConvention = CallingConvention.Cdecl)]")
+    g_NativeMethods.append("\t\t[DllImport(NativeLibraryName, EntryPoint = \"SteamAPI_{0}\", CallingConvention = CallingConvention.Cdecl)]".format(strEntryPoint))
 
     if returntype == "bool":
         g_NativeMethods.append("\t\t[return: MarshalAs(UnmanagedType.I1)]")
 
-    g_NativeMethods.append("\t\tpublic static extern " + returntype + " " + strEntryPoint + "(" + pinvokeargs + ");")
+    g_NativeMethods.append("\t\tpublic static extern {0} {1}({2});".format(returntype, strEntryPoint, pinvokeargs))
     g_NativeMethods.append("")
 
     functionBody = []
@@ -606,14 +606,23 @@ def parse_func(f, interface, func):
     g_Output.append("")
 
 def parse_args(strEntryPoint, args):
-    pinvokeargs = ""
+    pinvokeargs = "IntPtr instancePtr, "
     wrapperargs = ""
     argnames = ""
     stringargs = []
     outstringargs = []
     outstringsize = []
 
+    ifacename = strEntryPoint[1:strEntryPoint.index('_')]
+    if "GameServer" in ifacename:
+        if ifacename != "SteamGameServer" and ifacename != "SteamGameServerStats":
+            ifacename = ifacename.replace("GameServer", "")
+        argnames = "CSteamGameServerAPIContext.Get" + ifacename + "(), "
+    else:
+        argnames = "CSteamAPIContext.Get" + ifacename + "(), "
+
     getsize = False
+
     for arg in args:
         argtype = g_TypeDict.get(arg.type, arg.type)
         if argtype.endswith("*"):

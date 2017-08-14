@@ -7,7 +7,5 @@
 
 #if !DISABLESTEAMWORKS
 
-using System;
 using System.Runtime.InteropServices;
-
-namespace Steamworks {
+using IntPtr = System.IntPtr;

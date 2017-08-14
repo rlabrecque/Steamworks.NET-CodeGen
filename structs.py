@@ -105,6 +105,7 @@ def main(parser):
     with open("autogen/SteamStructs.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
+        out.write(bytes("\nnamespace Steamworks {\n", "utf-8"))
         for line in lines:
             out.write(bytes(line + "\n", "utf-8"))
         out.write(bytes("}\n\n", "utf-8"))
@@ -113,6 +114,7 @@ def main(parser):
     with open("autogen/SteamCallbacks.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
+        out.write(bytes("\nnamespace Steamworks {\n", "utf-8"))
         for line in callbacklines:
             out.write(bytes(line + "\n", "utf-8"))
         out.write(bytes("}\n\n", "utf-8"))

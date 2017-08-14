@@ -101,6 +101,8 @@ def main(parser):
     with open("autogen/SteamEnums.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
+        out.write(bytes("using Flags = System.FlagsAttribute;\n\n", "utf-8"))
+        out.write(bytes("namespace Steamworks {\n", "utf-8"))
         for line in lines:
             out.write(bytes(line + "\n", "utf-8"))
         out.write(bytes("}\n\n", "utf-8"))
