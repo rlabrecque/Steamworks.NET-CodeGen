@@ -620,7 +620,7 @@ def parse_func(f, interface, func):
             if c:
                 g_Output.append("\t\t/// <para>" + c + "</para>")
         g_Output.append("\t\t/// </summary>")
-    g_Output.append("\t\tpublic static " + wrapperreturntype + " " + func.name.rstrip("_") + "(" + wrapperargs + ") {")
+    g_Output.append("\t\tpublic static " + wrapperreturntype + " " + func.name.rstrip("0") + "(" + wrapperargs + ") {")
 
     g_Output.extend(functionBody)
 
