@@ -485,10 +485,10 @@ def parse_interface(f, interface):
 
 def parse_func(f, interface, func):
     if func.name in g_funcNames:
-        func.name += "_"
+        func.name += '0'
     g_funcNames.append(func.name)
 
-    strEntryPoint = interface.name + "_" + func.name
+    strEntryPoint = interface.name + '_' + func.name
 
     wrapperreturntype = None
     strCast = ""
