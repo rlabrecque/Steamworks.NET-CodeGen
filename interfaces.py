@@ -449,7 +449,14 @@ def parse(f):
 def parse_interface(f, interface):
     del g_funcNames[:]
 
-    g_NativeMethods.append("#region " + interface.name[1:])
+    if "GameServer" in interface.name and interface.name != "ISteamGameServer" and interface.name != "ISteamGameServerStats":
+        bGameServerVersion = True
+    else:
+        bGameServerVersion = False
+
+    if not bGameServerVersion:
+        g_NativeMethods.append("#region " + interface.name[1:])
+
     lastIfStatement = None
     for func in interface.functions:
         if func.ifstatements != lastIfStatement:
@@ -473,14 +480,20 @@ def parse_interface(f, interface):
         parse_func(f, interface, func)
 
     # Remove last whitespace
-    del g_NativeMethods[-1]
+    if not bGameServerVersion:
+        del g_NativeMethods[-1]
+
     del g_Output[-1]
 
     if lastIfStatement is not None:
-        g_NativeMethods.append("#endif")
+        if not bGameServerVersion:
+            g_NativeMethods.append("#endif")
+
         g_Output.append("#endif")
 
-    g_NativeMethods.append("#endregion")
+    if not bGameServerVersion:
+        g_NativeMethods.append("#endregion")
+
     g_Output.append("\t}")
 
 def parse_func(f, interface, func):
@@ -489,6 +502,11 @@ def parse_func(f, interface, func):
     g_funcNames.append(func.name)
 
     strEntryPoint = interface.name + '_' + func.name
+
+    if "GameServer" in interface.name and interface.name != "ISteamGameServer" and interface.name != "ISteamGameServerStats":
+        bGameServerVersion = True
+    else:
+        bGameServerVersion = False
 
     wrapperreturntype = None
     strCast = ""
@@ -515,13 +533,14 @@ def parse_func(f, interface, func):
     outstringargs = args[4][0]
     outstringsize = args[4][1]
 
-    g_NativeMethods.append("\t\t[DllImport(NativeLibraryName, EntryPoint = \"SteamAPI_{0}\", CallingConvention = CallingConvention.Cdecl)]".format(strEntryPoint))
+    if not bGameServerVersion:
+        g_NativeMethods.append("\t\t[DllImport(NativeLibraryName, EntryPoint = \"SteamAPI_{0}\", CallingConvention = CallingConvention.Cdecl)]".format(strEntryPoint))
 
-    if returntype == "bool":
-        g_NativeMethods.append("\t\t[return: MarshalAs(UnmanagedType.I1)]")
+        if returntype == "bool":
+            g_NativeMethods.append("\t\t[return: MarshalAs(UnmanagedType.I1)]")
 
-    g_NativeMethods.append("\t\tpublic static extern {0} {1}({2});".format(returntype, strEntryPoint, pinvokeargs))
-    g_NativeMethods.append("")
+        g_NativeMethods.append("\t\tpublic static extern {0} {1}({2});".format(returntype, strEntryPoint, pinvokeargs))
+        g_NativeMethods.append("")
 
     functionBody = []
 
@@ -569,7 +588,10 @@ def parse_func(f, interface, func):
 
         functionBody[-1] += " {"
 
-    functionBody.append("{0}{1}{2}NativeMethods.{3}({4});".format(indentlevel, strReturnable, strCast, strEntryPoint, argnames))
+    if bGameServerVersion:
+        functionBody.append("{0}{1}{2}NativeMethods.{3}({4});".format(indentlevel, strReturnable, strCast, interface.name.replace("GameServer", "") + '_' + func.name, argnames))
+    else:
+        functionBody.append("{0}{1}{2}NativeMethods.{3}({4});".format(indentlevel, strReturnable, strCast, strEntryPoint, argnames))
 
     if outstringargs:
         retcmp = "ret != 0"
