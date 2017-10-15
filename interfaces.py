@@ -264,6 +264,9 @@ g_SpecialArgsDict = {
     },
 
     # GameServer Copies
+    "ISteamGameServerApps_GetInstalledDepots": {
+        "pvecDepots": "DepotId_t[]",
+    },
     "ISteamGameServerHTTP_GetHTTPResponseHeaderValue": {
         "pHeaderValueBuffer": "byte[]",
     },
