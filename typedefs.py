@@ -11,7 +11,6 @@ g_PrettyFilenames = {
     "SteamHttp": "SteamHTTP",
     "SteamRemotestorage": "SteamRemoteStorage",
     "SteamUgc": "SteamUGC",
-    "SteamUnifiedmessages": "SteamUnifiedMessages",
     "SteamUserstats": "SteamUserStats",
 }
 
@@ -135,6 +134,14 @@ g_ReadOnlyValues = {
 
     "ClientUnifiedMessageHandle": OrderedDict([
         ("Invalid", "0"),
+    ]),
+
+    "SiteId_t": OrderedDict([
+        ("Invalid", "0"),
+    ]),
+
+    "SteamInventoryUpdateHandle_t": OrderedDict([
+        ("Invalid", "0xffffffffffffffff"),
     ]),
 }
 

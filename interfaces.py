@@ -92,7 +92,6 @@ g_ReturnTypeDict = {
     "ISteamRemoteStorage *": "IntPtr",
     "ISteamScreenshots *": "IntPtr",
     "ISteamUGC *": "IntPtr",
-    "ISteamUnifiedMessages *": "IntPtr",
     "ISteamUser *": "IntPtr",
     "ISteamUserStats *": "IntPtr",
     "ISteamUtils *": "IntPtr",
@@ -216,15 +215,6 @@ g_SpecialArgsDict = {
     },
     "ISteamUGC_StopPlaytimeTracking": {
         "pvecPublishedFileID": "PublishedFileId_t[]",
-    },
-    "ISteamUnifiedMessages_SendMethod": {
-        "pRequestBuffer": "byte[]",
-    },
-    "ISteamUnifiedMessages_GetMethodResponseData": {
-        "pResponseBuffer": "byte[]",
-    },
-    "ISteamUnifiedMessages_SendNotification": {
-        "pNotificationBuffer": "byte[]",
     },
     "ISteamUser_InitiateGameConnection": {
         "pAuthBlob": "byte[]",

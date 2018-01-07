@@ -82,6 +82,7 @@ g_SkippedConstants = (
     # ISteamInventory
     "k_SteamItemInstanceIDInvalid",
     "k_SteamInventoryResultInvalid",
+    "k_SteamInventoryUpdateHandleInvalid",
 
     # ISteamMatchmaking
     "HSERVERQUERY_INVALID",
@@ -106,6 +107,7 @@ g_SkippedConstants = (
     "k_uDepotIdInvalid",
     "k_uAPICallInvalid",
     "k_uManifestIdInvalid",
+    "k_ulSiteIdInvalid",
 
     """ TODO: Skip all these once we have typedef autogen hooked up.
     public const ulong k_GIDNil = 0xffffffffffffffffull;
