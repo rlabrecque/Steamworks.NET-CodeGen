@@ -157,7 +157,7 @@ def main(parser):
     with open("autogen/SteamConstants.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
-        out.write(bytes("\nnamespace Steamworks {\n", "utf-8"))
+        out.write(bytes("namespace Steamworks {\n", "utf-8"))
         out.write(bytes("\tpublic static class Constants {\n", "utf-8"))
         for line in lines:
             out.write(bytes("\t\t" + line + "\n", "utf-8"))

@@ -1,11 +1,3 @@
-// This file is provided under The MIT License as part of Steamworks.NET.
-// Copyright (c) 2013-2017 Riley Labrecque
-// Please see the included LICENSE.txt for additional information.
-
-// Changes to this file will be reverted when you update Steamworks.NET
-
-#if !DISABLESTEAMWORKS
-
 namespace Steamworks {
 	// servernetadr_t is all the addressing info the serverbrowser needs to know about a game server,
 	// namely: its IP, its connection port, and its query port.

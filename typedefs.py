@@ -152,17 +152,24 @@ def main(parser):
     except FileNotFoundError:
         pass
 
-    try:
-        shutil.copytree("CustomTypes/", "types/")
-    except OSError as e:
-        # If the error was caused because the source wasn't a directory
-        if e.errno == errno.ENOTDIR:
-            shutil.copy("CustomTypes/", "types/")
-        else:
-            print('Directory not copied. Error: %s' % e)
+    with open("templates/header.txt", "r") as f:
+        HEADER = f.read()
 
     with open("templates/typetemplate.txt", "r") as f:
         template = f.read()
+
+    for root, directories, filenames in os.walk('CustomTypes/'):
+        for filename in filenames:
+            outputdir = "types/" + root[len('CustomTypes/'):]
+            try:
+                os.makedirs(outputdir)
+            except OSError:
+                pass
+
+            with open(os.path.join(outputdir, filename), "wb") as out:
+                out.write(bytes(HEADER, "utf-8"))
+                with open(os.path.join(root, filename), "r") as customType:
+                    out.write(bytes(customType.read(), "utf-8"))
 
     for t in parser.typedefs:
         if t.name in g_UnusedTypedefs:
@@ -201,6 +208,7 @@ def main(parser):
             pass
 
         with open("types/" + foldername + "/" + t.name + ".cs", "wb") as out:
+            out.write(bytes(HEADER, "utf-8"))
             out.write(bytes(ourtemplate, "utf-8"))
 
 if __name__ == "__main__":

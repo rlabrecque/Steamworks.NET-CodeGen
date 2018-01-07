@@ -408,6 +408,7 @@ def main(parser):
         parse(f)
 
     with open("autogen/NativeMethods.cs", "wb") as out:
+        out.write(bytes(HEADER, "utf-8"))
         with open("templates/nativemethods.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         for line in g_NativeMethods:
@@ -432,7 +433,7 @@ def parse(f):
     if g_Output:
         with open('autogen/' + os.path.splitext(f.name)[0] + '.cs', 'wb') as out:
             out.write(bytes(HEADER, "utf-8"))
-            out.write(bytes("\nnamespace Steamworks {\n", "utf-8"))
+            out.write(bytes("namespace Steamworks {\n", "utf-8"))
             for line in g_Output:
                 out.write(bytes(line + "\n", "utf-8"))
             out.write(bytes("}\n\n", "utf-8"))  # Namespace
