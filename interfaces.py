@@ -408,7 +408,7 @@ def main(parser):
         parse(f)
 
     with open("autogen/NativeMethods.cs", "wb") as out:
-        out.write(bytes(HEADER, "utf-8"))
+        #out.write(bytes(HEADER, "utf-8"))
         with open("templates/nativemethods.txt", "r") as f:
             out.write(bytes(f.read(), "utf-8"))
         for line in g_NativeMethods:
