@@ -389,7 +389,7 @@ HEADER = None
 
 g_NativeMethods = []
 g_Output = []
-g_funcNames = []
+g_funcNames = {}
 g_Typedefs = None
 
 def main(parser):
@@ -441,7 +441,7 @@ def parse(f):
 
 
 def parse_interface(f, interface):
-    del g_funcNames[:]
+    g_funcNames.clear()
 
     if "GameServer" in interface.name and interface.name != "ISteamGameServer" and interface.name != "ISteamGameServerStats":
         bGameServerVersion = True
@@ -492,8 +492,11 @@ def parse_interface(f, interface):
 
 def parse_func(f, interface, func):
     if func.name in g_funcNames:
-        func.name += '0'
-    g_funcNames.append(func.name)
+        prevNum = g_funcNames[func.name]
+        g_funcNames[func.name] += 1
+        func.name += str(prevNum)
+    else:
+        g_funcNames[func.name] = 0
 
     strEntryPoint = interface.name + '_' + func.name
 
