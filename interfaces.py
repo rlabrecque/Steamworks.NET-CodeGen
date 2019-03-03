@@ -76,11 +76,12 @@ g_ReturnTypeDict = {
     "ISteamApps *": "IntPtr",
     "ISteamController *": "IntPtr",
     "ISteamFriends *": "IntPtr",
+    "ISteamGameSearch *": "IntPtr",
     "ISteamGameServer *": "IntPtr",
     "ISteamGameServerStats *": "IntPtr",
     "ISteamHTMLSurface *": "IntPtr",
     "ISteamHTTP *": "IntPtr",
-    "ISteamInventory *": "IntPtr",
+    "ISteamInput *": "IntPtr",
     "ISteamInventory *": "IntPtr",
     "ISteamMatchmaking *": "IntPtr",
     "ISteamMatchmakingServers *": "IntPtr",
@@ -88,6 +89,7 @@ g_ReturnTypeDict = {
     "ISteamMusicRemote *": "IntPtr",
     "ISteamNetworking *": "IntPtr",
     "ISteamParentalSettings *": "IntPtr",
+    "ISteamParties *": "IntPtr",
     "ISteamPS3OverlayRender *": "IntPtr",
     "ISteamRemoteStorage *": "IntPtr",
     "ISteamScreenshots *": "IntPtr",
@@ -119,6 +121,15 @@ g_SpecialArgsDict = {
     },
     "ISteamController_GetAnalogActionOrigins": {
         "originsOut": "EControllerActionOrigin[]",
+    },
+    "ISteamInput_GetConnectedControllers": {
+        "handlesOut": "InputHandle_t[]",
+    },
+    "ISteamInput_GetDigitalActionOrigins": {
+        "originsOut": "EInputActionOrigin[]",
+    },
+    "ISteamInput_GetAnalogActionOrigins": {
+        "originsOut": "EInputActionOrigin[]",
     },
     "ISteamGameServer_SendUserConnectAndAuthenticate": {
         "pvAuthBlob": "byte[]",
@@ -373,6 +384,11 @@ g_InsertCode = {
         "if (handlesOut.Length != Constants.STEAM_CONTROLLER_MAX_COUNT) {",
         "\tthrow new System.ArgumentException(\"handlesOut must be the same size as Constants.STEAM_CONTROLLER_MAX_COUNT!\");",
         "}"
+    ],
+     "ISteamInput_GetConnectedControllers": [
+        "if (handlesOut.Length != Constants.STEAM_INPUT_MAX_COUNT) {",
+        "\tthrow new System.ArgumentException(\"handlesOut must be the same size as Constants.STEAM_INPUT_MAX_COUNT!\");",
+        "}"
     ]
 }
 
@@ -384,6 +400,12 @@ g_SkippedTypedefs = (
     "int64",
     "uint64",
 )
+
+g_ArgDefaultLookup = {
+    "k_EActivateGameOverlayToWebPageMode_Default": "EActivateGameOverlayToWebPageMode.k_EActivateGameOverlayToWebPageMode_Default",
+    "NULL": "null",
+    "nullptr": "null",
+}
 
 HEADER = None
 
@@ -650,7 +672,7 @@ def parse_args(strEntryPoint, args):
         argtype = g_SpecialArgsDict.get(strEntryPoint, dict()).get(arg.name, argtype)
 
         if arg.attribute:
-            if arg.attribute.name == "OUT_ARRAY" or arg.attribute.name == "OUT_ARRAY_CALL" or arg.attribute.name == "OUT_ARRAY_COUNT" or arg.attribute.name == "ARRAY_COUNT" or arg.attribute.name == "ARRAY_COUNT_D":
+            if arg.attribute.name == "STEAM_OUT_ARRAY" or arg.attribute.name == "STEAM_OUT_ARRAY_CALL" or arg.attribute.name == "STEAM_OUT_ARRAY_COUNT" or arg.attribute.name == "STEAM_ARRAY_COUNT" or arg.attribute.name == "STEAM_ARRAY_COUNT_D":
                 potentialtype = arg.type.rstrip("*").rstrip()
                 argtype = g_TypeDict.get(potentialtype, potentialtype) + "[]"
             #if arg.attribute.name == "OUT_STRING" or arg.attribute.name == "OUT_STRING_COUNT":  #Unused for now
@@ -678,7 +700,7 @@ def parse_args(strEntryPoint, args):
         if not arg.name.endswith("Deprecated"):
             wrapperargs += wrapperargtype + " " + arg.name
             if arg.default:
-                wrapperargs += " = " + arg.default
+                wrapperargs += " = " + g_ArgDefaultLookup.get(arg.default, arg.default)
             wrapperargs += ", "
 
         if argtype.startswith("out"):

@@ -14,27 +14,13 @@ g_TypeDict = {
 g_SkippedDefines = (
     "VALVE_COMPILE_TIME_ASSERT(",
     "REFERENCE(arg)",
-    "DEFINE_CALLBACK(",
-    "CALLBACK_MEMBER(",
-    "CALLBACK_ARRAY(",
+    "STEAM_CALLBACK_BEGIN(",
+    "STEAM_CALLBACK_MEMBER(",
+    "STEAM_CALLBACK_ARRAY(",
     "END_CALLBACK_INTERNAL_BEGIN(",
     "END_CALLBACK_INTERNAL_SWITCH(",
     "END_CALLBACK_INTERNAL_END()",
-    "END_DEFINE_CALLBACK_0()",
-    "END_DEFINE_CALLBACK_1()",
-    "END_DEFINE_CALLBACK_2()",
-    "END_DEFINE_CALLBACK_3()",
-    "END_DEFINE_CALLBACK_4()",
-    "END_DEFINE_CALLBACK_5()",
-    "END_DEFINE_CALLBACK_6()",
-    "END_DEFINE_CALLBACK_7()",
-    "END_DEFINE_CALLBACK_8()",
-    "END_DEFINE_CALLBACK_9()",
-    "END_DEFINE_CALLBACK_10()",
-    "END_DEFINE_CALLBACK_11()",
-    "END_DEFINE_CALLBACK_12()",
-    "END_DEFINE_CALLBACK_13()",
-    "END_DEFINE_CALLBACK_14()",
+    "STEAM_CALLBACK_END(",
     "INVALID_HTTPCOOKIE_HANDLE",
     "BChatMemberStateChangeRemoved(",
     "STEAM_COLOR_RED(",
@@ -66,6 +52,11 @@ g_SkippedDefines = (
     "S_CALLTYPE",
     "POSIX",
     "STEAM_PRIVATE_API(",
+
+    # We just create multiple versions of this struct, Valve renamed them.
+    "ControllerAnalogActionData_t",
+    "ControllerDigitalActionData_t",
+    "ControllerMotionData_t",
 
     # TODO: Skip all these once we have typedef autogen hooked up.
     #"MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE",
@@ -137,6 +128,9 @@ g_CustomDefines = {
     "STEAM_CONTROLLER_HANDLE_ALL_CONTROLLERS": ("ulong", "0xFFFFFFFFFFFFFFFF"),
     "STEAM_CONTROLLER_MIN_ANALOG_ACTION_DATA": ("float", "-1.0f"),
     "STEAM_CONTROLLER_MAX_ANALOG_ACTION_DATA": ("float", "1.0f"),
+    "STEAM_INPUT_HANDLE_ALL_CONTROLLERS": ("ulong", "0xFFFFFFFFFFFFFFFF"),
+    "STEAM_INPUT_MIN_ANALOG_ACTION_DATA": ("float", "-1.0f"),
+    "STEAM_INPUT_MAX_ANALOG_ACTION_DATA": ("float", "1.0f"),
 }
 
 

@@ -27,12 +27,20 @@ g_FlagEnums = (
     "EAppType",
     "EChatSteamIDInstanceFlags",
     "EMarketingMessageFlags",
+    "EMarketNotAllowedReasonFlags",
 )
 
-g_SkippedEnums = (
-    # TODO: Why?
-    "EGameIDType",
-)
+g_SkippedEnums = {
+    # This is defined within CGameID and we handwrote CGameID including this.
+    "EGameIDType": "steamclientpublic.h",
+
+    # Valve redefined these twice, and ifdef decided which one to use. :(
+    # We use the newer ones from isteaminput.h and skip the ones in
+    # isteamcontroller.h because it is deprecated.
+    "ESteamControllerPad": "isteamcontroller.h",
+    "EXboxOrigin": "isteamcontroller.h",
+    "ESteamInputType": "isteamcontroller.h",
+}
 
 g_ValueConversionDict = {
     "0xffffffff": "-1",
@@ -49,7 +57,7 @@ def main(parser):
     lines = []
     for f in parser.files:
         for enum in f.enums:
-            if enum.name in g_SkippedEnums:
+            if enum.name in g_SkippedEnums and g_SkippedEnums[enum.name] == f.name:
                 continue
 
             for comment in enum.c.rawprecomments:
@@ -71,7 +79,7 @@ def main(parser):
                 line = "\t\t" + field.name
                 if field.value:
                     if "<<" in field.value and enum.name not in g_FlagEnums:
-                        print("[WARNING] Enum is contains "<<" but is not marked as a flag! - " + enum.name)
+                        print("[WARNING] Enum " + enum.name + " contains '<<' but is not marked as a flag! - " + f.name)
 
                     if field.value == "=" or field.value == "|":
                         line += " "

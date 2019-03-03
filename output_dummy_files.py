@@ -22,7 +22,8 @@ def main():
                 out.write(bytes(f.read(), "utf-8"))
             out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
             out.write(bytes("\n", "utf-8"))
-            out.write(bytes("// This file is no longer needed.\n", "utf-8"))
+            out.write(bytes("// This file is no longer needed. Valve has removed the functionality.\n", "utf-8"))
+            out.write(bytes("// We continue to generate this file to provide a small amount of backwards compatability.\n", "utf-8"))
 
 if __name__ == "__main__":
     main()

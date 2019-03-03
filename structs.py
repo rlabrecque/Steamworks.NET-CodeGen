@@ -131,9 +131,7 @@ def parse(struct):
         lines.append("\t" + comment)
 
     structname = struct.name
-    if structname == "SteamControllerState001_t":
-        structname = "SteamControllerState_t"
-    
+
     packsize = g_CustomPackSize.get(structname, "Packsize.value")
     if g_ExplicitStructs.get(structname, False):
         lines.append("\t[StructLayout(LayoutKind.Explicit, Pack = " + packsize + ")]")

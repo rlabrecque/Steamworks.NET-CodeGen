@@ -41,7 +41,6 @@ g_UnusedTypedefs = [
     "PackageId_t",
     "PartnerId_t",
     "PhysicalItemId_t",
-    "RTime32",
     "TxnID_t",
     "uint8",
     "uint16",
@@ -142,6 +141,10 @@ g_ReadOnlyValues = {
 
     "SteamInventoryUpdateHandle_t": OrderedDict([
         ("Invalid", "0xffffffffffffffff"),
+    ]),
+
+    "PartyBeaconID_t": OrderedDict([
+        ("Invalid", "0"),
     ]),
 }
 
