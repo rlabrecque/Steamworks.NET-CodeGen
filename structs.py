@@ -42,6 +42,8 @@ g_CustomPackSize = {
     # Structs
     "ControllerAnalogActionData_t": "1",
     "ControllerDigitalActionData_t": "1",
+    "InputAnalogActionData_t": "1",
+    "InputDigitalActionData_t": "1",
 }
 
 g_SkippedStructs = (
