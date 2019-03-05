@@ -79,6 +79,15 @@ g_SpecialFieldTypes = {
     "ControllerDigitalActionData_t": {
         "bState": "byte", # Originally bool
         "bActive": "byte" # Originally bool
+    },
+
+    "InputAnalogActionData_t": {
+        "bActive": "byte" # Originally bool
+    },
+
+    "InputDigitalActionData_t": {
+        "bState": "byte", # Originally bool
+        "bActive": "byte" # Originally bool
     }
 }
 
