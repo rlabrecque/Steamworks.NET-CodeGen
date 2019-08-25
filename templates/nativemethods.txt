@@ -188,4 +188,8 @@ namespace Steamworks {
 
 		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamEncryptedAppTicket_GetUserVariableData(byte[] rgubTicketDecrypted, uint cubTicketDecrypted, out uint pcubUserData);
+
+		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool SteamEncryptedAppTicket_BIsTicketSigned([In, Out] byte[] rgubTicketDecrypted, uint cubTicketDecrypted, [In, Out] byte[] pubRSAKey, uint cubRSAKey);
 #endregion
