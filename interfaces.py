@@ -113,24 +113,6 @@ g_SpecialArgsDict = {
     "ISteamApps_GetInstalledDepots": {
         "pvecDepots": "DepotId_t[]",
     },
-    "ISteamController_GetConnectedControllers": {
-        "handlesOut": "ControllerHandle_t[]",
-    },
-    "ISteamController_GetDigitalActionOrigins": {
-        "originsOut": "EControllerActionOrigin[]",
-    },
-    "ISteamController_GetAnalogActionOrigins": {
-        "originsOut": "EControllerActionOrigin[]",
-    },
-    "ISteamInput_GetConnectedControllers": {
-        "handlesOut": "InputHandle_t[]",
-    },
-    "ISteamInput_GetDigitalActionOrigins": {
-        "originsOut": "EInputActionOrigin[]",
-    },
-    "ISteamInput_GetAnalogActionOrigins": {
-        "originsOut": "EInputActionOrigin[]",
-    },
     "ISteamGameServer_SendUserConnectAndAuthenticate": {
         "pvAuthBlob": "byte[]",
     },
