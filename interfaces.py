@@ -13,6 +13,7 @@ g_SkippedFiles = (
 
 g_TypeDict = {
     # Built in types
+    "char*": "IntPtr",
     "char *": "IntPtr",
     "char **": "out IntPtr",
     "const char*": "InteropHelp.UTF8StringHandle",
@@ -557,7 +558,7 @@ def parse_func(f, interface, func):
     strReturnable = "return "
     if func.returntype == "void":
         strReturnable = ""
-    elif func.returntype == "const char *":
+    elif func.returntype == "const char *" or func.returntype == "const char*":
         wrapperreturntype = "string"
         strReturnable += "InteropHelp.PtrToStringUTF8("
         argnames += ")"
@@ -676,7 +677,7 @@ def parse_args(strEntryPoint, args):
         wrapperargtype = g_SpecialWrapperArgsDict.get(strEntryPoint, dict()).get(arg.name, wrapperargtype)
         if wrapperargtype == "InteropHelp.UTF8StringHandle":
             wrapperargtype = "string"
-        elif arg.type == "char *":
+        elif arg.type == "char *" or arg.type == "char*":
             wrapperargtype = "out string"
 
         if not arg.name.endswith("Deprecated"):
