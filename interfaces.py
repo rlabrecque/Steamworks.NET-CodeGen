@@ -92,6 +92,7 @@ g_ReturnTypeDict = {
     "ISteamParentalSettings *": "IntPtr",
     "ISteamParties *": "IntPtr",
     "ISteamPS3OverlayRender *": "IntPtr",
+    "ISteamRemotePlay *": "IntPtr",
     "ISteamRemoteStorage *": "IntPtr",
     "ISteamScreenshots *": "IntPtr",
     "ISteamUGC *": "IntPtr",
