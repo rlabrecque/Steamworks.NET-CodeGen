@@ -1,5 +1,6 @@
 import os
 import sys
+from collections import OrderedDict
 from SteamworksParser import steamworksparser
 
 g_SkippedFiles = (
@@ -364,22 +365,34 @@ g_SpecialWrapperArgsDict = {
     },
 }
 
+g_FixedAttributeValues = {
+    "ISteamInventory_GetItemsWithPrices": {
+        "pArrayItemDefs": {
+            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
+        },
+        "pCurrentPrices": {
+            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
+        },
+        "pBasePrices": {
+            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
+        },
+    },
+    "ISteamGameServerInventory_GetItemsWithPrices": {
+        "pArrayItemDefs": {
+            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
+        },
+        "pCurrentPrices": {
+            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
+        },
+        "pBasePrices": {
+            "STEAM_OUT_ARRAY_COUNT": "unArrayLength"
+        },
+    },
+}
+
 g_SpecialOutStringRetCmp = {
     "ISteamFriends_GetClanChatMessage": "ret != 0",
     "ISteamFriends_GetFriendMessage": "ret != 0",
-}
-
-g_InsertCode = {
-    "ISteamController_GetConnectedControllers": [
-        "if (handlesOut.Length != Constants.STEAM_CONTROLLER_MAX_COUNT) {",
-        "\tthrow new System.ArgumentException(\"handlesOut must be the same size as Constants.STEAM_CONTROLLER_MAX_COUNT!\");",
-        "}"
-    ],
-     "ISteamInput_GetConnectedControllers": [
-        "if (handlesOut.Length != Constants.STEAM_INPUT_MAX_COUNT) {",
-        "\tthrow new System.ArgumentException(\"handlesOut must be the same size as Constants.STEAM_INPUT_MAX_COUNT!\");",
-        "}"
-    ]
 }
 
 g_SkippedTypedefs = (
@@ -541,6 +554,7 @@ def parse_func(f, interface, func):
     stringargs = args[3]
     outstringargs = args[4][0]
     outstringsize = args[4][1]
+    args_with_explicit_count = args[5]
 
     if not bGameServerVersion:
         g_NativeMethods.append("\t\t[DllImport(NativeLibraryName, EntryPoint = \"SteamAPI_{0}\", CallingConvention = CallingConvention.Cdecl)]".format(strEntryPoint))
@@ -558,9 +572,12 @@ def parse_func(f, interface, func):
     else:
         functionBody.append("\t\t\tInteropHelp.TestIfAvailableClient();")
 
-    if strEntryPoint in g_InsertCode:
-        for line in g_InsertCode[strEntryPoint]:
-            functionBody.append("\t\t\t" + line)
+    for argname, argsize in args_with_explicit_count.items():
+        if argsize not in argnames:
+            argsize = "Constants." + argsize
+        functionBody.append("\t\t\tif ({0}.Length != {1}) {{".format(argname, argsize))
+        functionBody.append("\t\t\t\tthrow new System.ArgumentException(\"{0} must be the same size as {1}!\");".format(argname, argsize))
+        functionBody.append("\t\t\t}")
 
     strReturnable = "return "
     if func.returntype == "void":
@@ -643,6 +660,7 @@ def parse_args(strEntryPoint, args):
     stringargs = []
     outstringargs = []
     outstringsize = []
+    args_with_explicit_count = OrderedDict()
 
     ifacename = strEntryPoint[1:strEntryPoint.index('_')]
     if "GameServer" in ifacename:
@@ -666,6 +684,16 @@ def parse_args(strEntryPoint, args):
                 potentialtype = arg.type.rstrip("*").rstrip()
                 argtype = g_TypeDict.get(potentialtype, potentialtype) + "[]"
             #if arg.attribute.name == "OUT_STRING" or arg.attribute.name == "OUT_STRING_COUNT":  #Unused for now
+
+            if arg.attribute.name == "STEAM_OUT_ARRAY_COUNT":
+                fixedattrvalue = g_FixedAttributeValues.get(strEntryPoint, dict()).get(arg.name, dict()).get(arg.attribute.name, arg.attribute.value)
+                commaindex = fixedattrvalue.find(',')
+                if commaindex > 0:
+                    args_with_explicit_count[arg.name] = fixedattrvalue[:commaindex]
+                else:
+                    args_with_explicit_count[arg.name] = fixedattrvalue
+                print(arg.name, fixedattrvalue, args_with_explicit_count[arg.name], commaindex)
+
 
         if arg.type == "MatchMakingKeyValuePair_t **":  # TODO: Fixme - Small Hack... We do this because MatchMakingKeyValuePair's have ARRAY_COUNT() and two **'s, things get broken :(
             argtype = "IntPtr"
@@ -732,7 +760,7 @@ def parse_args(strEntryPoint, args):
     pinvokeargs = pinvokeargs.rstrip(", ")
     wrapperargs = wrapperargs.rstrip(", ")
     argnames = argnames.rstrip(", ")
-    return (pinvokeargs, wrapperargs, argnames, stringargs, (outstringargs, outstringsize))
+    return (pinvokeargs, wrapperargs, argnames, stringargs, (outstringargs, outstringsize), args_with_explicit_count)
 
 
 if __name__ == "__main__":
