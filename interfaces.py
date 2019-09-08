@@ -699,7 +699,6 @@ def parse_args(strEntryPoint, args):
                     args_with_explicit_count[arg.name] = fixedattrvalue[:commaindex]
                 else:
                     args_with_explicit_count[arg.name] = fixedattrvalue
-                print(arg.name, fixedattrvalue, args_with_explicit_count[arg.name], commaindex)
 
 
         if arg.type == "MatchMakingKeyValuePair_t **":  # TODO: Fixme - Small Hack... We do this because MatchMakingKeyValuePair's have ARRAY_COUNT() and two **'s, things get broken :(
