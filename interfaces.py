@@ -352,7 +352,14 @@ g_SpecialArgsDict = {
 
     "ISteamVideo_GetOPFStringForApp": {
         "pnBufferSize": "ref int"
-    }
+    },
+
+    "ISteamParties_CreateBeacon": {
+        "pBeaconLocation": "ref SteamPartyBeaconLocation_t",
+    },
+    "ISteamParties_GetAvailableBeaconLocations": {
+        "pLocationList": "SteamPartyBeaconLocation_t[]",
+    },
 }
 
 g_SpecialWrapperArgsDict = {
