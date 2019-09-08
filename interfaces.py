@@ -325,6 +325,9 @@ g_SpecialArgsDict = {
     "ISteamInventory_GetResultItemProperty": {
         "punValueBufferSizeOut": "ref uint",
     },
+    "ISteamInventory_GetItemDefinitionIDs": {
+        "punItemDefIDsArraySize": "ref uint",
+    },
     "ISteamInventory_GetEligiblePromoItemDefinitionIDs": {
         "punItemDefIDsArraySize": "ref uint",
     },
@@ -338,6 +341,9 @@ g_SpecialArgsDict = {
     },
     "ISteamGameServerInventory_GetResultItemProperty": {
         "punValueBufferSizeOut": "ref uint",
+    },
+    "ISteamGameServerInventory_GetItemDefinitionIDs": {
+        "punItemDefIDsArraySize": "ref uint",
     },
     "ISteamGameServerInventory_GetEligiblePromoItemDefinitionIDs": {
         "punItemDefIDsArraySize": "ref uint",
