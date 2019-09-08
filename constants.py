@@ -2,6 +2,15 @@ import os
 import sys
 from SteamworksParser import steamworksparser
 
+class InternalConstant:
+    def __init__(self, name, value, type_, precomments, comment, spacing):
+        self.name = name
+        self.value = value
+        self.type = type_
+        self.precomments = precomments
+        self.comment = comment
+        self.spacing = spacing
+
 g_TypeDict = {
     # Not a bug... But, it's a giant hack.
     # The issue is that most of these are used as the MarshalAs SizeConst in C# amongst other things and C# wont auto convert them.
@@ -133,7 +142,6 @@ g_CustomDefines = {
     "STEAM_INPUT_MAX_ANALOG_ACTION_DATA": ("float", "1.0f"),
 }
 
-
 def main(parser):
     try:
         os.makedirs("autogen/")
@@ -141,12 +149,11 @@ def main(parser):
         pass
 
     lines = []
-    defines = parse_defines(parser)
-    interfaceversions = defines[0]
-    defines = defines[1]
-    lines.extend(interfaceversions)
-    lines.extend(parse_constants(parser))
-    lines.extend(defines)
+    constants = parse(parser)
+    for constant in constants:
+        for precomment in constant.precomments:
+            lines.append("//" + precomment)
+        lines.append("public const " + constant.type + " " + constant.name + constant.spacing + "= " + constant.value + ";" + constant.comment)
 
     with open("autogen/SteamConstants.cs", "wb") as out:
         with open("templates/header.txt", "r") as f:
@@ -159,17 +166,18 @@ def main(parser):
         out.write(bytes("}\n\n", "utf-8"))
         out.write(bytes("#endif // !DISABLESTEAMWORKS\n", "utf-8"))
 
+def parse(parser):
+    interfaceversions, defines = parse_defines(parser)
+    constants = parse_constants(parser)
+    return interfaceversions + constants + defines
 
 def parse_defines(parser):
-    lines = []
-    interfaceversions = []
+    out_defines = []
+    out_interfaceversions = []
     for f in parser.files:
         for d in f.defines:
             if d.name in g_SkippedDefines:
                 continue
-
-            for comment in d.c.precomments:
-                lines.append("//" + comment)
 
             comment = ""
             if d.c.linecomment:
@@ -186,23 +194,20 @@ def parse_defines(parser):
             elif d.value.startswith('"'):
                 definetype = "string"
                 if d.name.startswith("STEAM"):
-                    interfaceversions.append("public const " + definetype + " " + d.name + " = " + definevalue + ";" + comment)
+                    out_interfaceversions.append(InternalConstant(d.name, definevalue, definetype, d.c.precomments, comment, " "))
                     continue
 
-            lines.append("public const " + definetype + " " + d.name + d.spacing + "= " + definevalue + ";" + comment)
+            out_defines.append(InternalConstant(d.name, definevalue, definetype, d.c.precomments, comment, d.spacing))
 
-    return (sorted(interfaceversions, key=str.lower), lines)
+    return (out_interfaceversions, out_defines)
 
 
 def parse_constants(parser):
-    lines = []
+    out_constants = []
     for f in parser.files:
         for constant in f.constants:
             if constant.name in g_SkippedConstants:
                 continue
-
-            for comment in constant.c.precomments:
-                lines.append("//" + comment)
 
             comment = ""
             if constant.c.linecomment:
@@ -224,10 +229,9 @@ def parse_constants(parser):
             elif constantvalue == "0xffffffffffffffffull":
                 constantvalue = constantvalue[:-3]
 
-            lines.append("public const " + constanttype + " " + constant.name + " = " + constantvalue + ";" + comment)
+            out_constants.append(InternalConstant(constant.name, constantvalue, constanttype, constant.c.precomments, comment, " "))
 
-    return lines
-
+    return out_constants
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
