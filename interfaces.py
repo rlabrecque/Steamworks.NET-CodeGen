@@ -582,7 +582,7 @@ def parse_func(f, interface, func):
     for argname, argsize in args_with_explicit_count.items():
         if argsize not in argnames:
             argsize = "Constants." + argsize
-        functionBody.append("\t\t\tif ({0}.Length != {1}) {{".format(argname, argsize))
+        functionBody.append("\t\t\tif ({0} != null && {0}.Length != {1}) {{".format(argname, argsize))
         functionBody.append("\t\t\t\tthrow new System.ArgumentException(\"{0} must be the same size as {1}!\");".format(argname, argsize))
         functionBody.append("\t\t\t}")
 
