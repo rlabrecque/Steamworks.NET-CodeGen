@@ -47,15 +47,12 @@ g_CustomPackSize = {
 }
 
 g_SkippedStructs = (
-    # All PS3 stuff.
+    # Lingering PS3 stuff.
     "PSNGameBootInviteResult_t",
     "PS3TrophiesInstalled_t",
-    "NetStartDialogFinished_t",
-    "NetStartDialogUnloaded_t",
-    "PS3SystemMenuClosed_t",
-    "PS3NPMessageSelected_t",
-    "PS3KeyboardDialogFinished_t",
-    "PS3PSNStatusChange_t",
+
+    # CustomType
+    "SteamIPAddress_t",
 )
 
 g_SequentialStructs = (

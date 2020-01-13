@@ -360,6 +360,10 @@ g_SpecialArgsDict = {
     "ISteamParties_GetAvailableBeaconLocations": {
         "pLocationList": "SteamPartyBeaconLocation_t[]",
     },
+
+    "ISteamClient_SetLocalIPBinding": {
+        "unIP": "ref SteamIPAddress_t",
+    },
 }
 
 g_SpecialWrapperArgsDict = {
@@ -369,6 +373,13 @@ g_SpecialWrapperArgsDict = {
     },
     "ISteamFriends_GetFriendMessage": {
         "pvData": "out string",
+    },
+
+    "ISteamClient_SetLocalIPBinding": {
+        "unIP": "ref SteamIPAddress_t",
+    },
+    "ISteamGameServerClient_SetLocalIPBinding": {
+        "unIP": "ref SteamIPAddress_t",
     },
 }
 
@@ -729,7 +740,7 @@ def parse_args(strEntryPoint, args):
 
         if argtype.startswith("out"):
             argnames += "out "
-        elif argtype.startswith("ref"):
+        elif wrapperargtype.startswith("ref"):
             argnames += "ref "
 
         if wrapperargtype == "System.Collections.Generic.IList<string>":
