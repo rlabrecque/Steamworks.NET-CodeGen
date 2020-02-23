@@ -40,8 +40,6 @@ g_CustomPackSize = {
     "ValidateAuthTicketResponse_t": "4",
 
     # Structs
-    "ControllerAnalogActionData_t": "1",
-    "ControllerDigitalActionData_t": "1",
     "InputAnalogActionData_t": "1",
     "InputDigitalActionData_t": "1",
 }
@@ -50,6 +48,11 @@ g_SkippedStructs = (
     # Lingering PS3 stuff.
     "PSNGameBootInviteResult_t",
     "PS3TrophiesInstalled_t",
+
+    # We remap these ISteamController structs to ISteamInput
+    "ControllerAnalogActionData_t",
+    "ControllerDigitalActionData_t",
+    "ControllerMotionData_t",
 
     # CustomType
     "SteamIPAddress_t",
@@ -69,23 +72,14 @@ g_SpecialFieldTypes = {
     },
 
     # These two are returned by a function and the struct needs to be blittable.
-    "ControllerAnalogActionData_t": {
-        "bActive": "byte" # Originally bool
-    },
-
-    "ControllerDigitalActionData_t": {
-        "bState": "byte", # Originally bool
-        "bActive": "byte" # Originally bool
-    },
-
     "InputAnalogActionData_t": {
-        "bActive": "byte" # Originally bool
+        "bActive": "byte", # Originally bool
     },
 
     "InputDigitalActionData_t": {
-        "bState": "byte", # Originally bool
-        "bActive": "byte" # Originally bool
-    }
+        "bState":  "byte", # Originally bool
+        "bActive": "byte", # Originally bool
+    },
 }
 
 g_ExplicitStructs = {
@@ -208,7 +202,7 @@ def parse_field(field, structname):
     comment = ""
     if field.c.rawlinecomment:
         comment = field.c.rawlinecomment
-    
+
     if fieldtype == "bool":
         lines.append("\t\t[MarshalAs(UnmanagedType.I1)]")
 

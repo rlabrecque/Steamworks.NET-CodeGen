@@ -37,16 +37,15 @@ using IntPtr = System.IntPtr;
 namespace Steamworks {
 	[System.Security.SuppressUnmanagedCodeSecurity()]
 	internal static class NativeMethods {
-		#if STEAMWORKS_WIN && STEAMWORKS_X64
-			internal const string NativeLibraryName = "steam_api64";
-			internal const string NativeLibrary_SDKEncryptedAppTicket = "sdkencryptedappticket64";
-		#else
-			internal const string NativeLibraryName = "steam_api";
-			internal const string NativeLibrary_SDKEncryptedAppTicket = "sdkencryptedappticket";
-		#endif
+#if STEAMWORKS_WIN && STEAMWORKS_X64
+		internal const string NativeLibraryName = "steam_api64";
+		internal const string NativeLibrary_SDKEncryptedAppTicket = "sdkencryptedappticket64";
+#else
+		internal const string NativeLibraryName = "steam_api";
+		internal const string NativeLibrary_SDKEncryptedAppTicket = "sdkencryptedappticket";
+#endif
 
 #region steam_api.h
-		// Steam API setup & shutdown
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_Init", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamAPI_Init();
@@ -61,14 +60,12 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ReleaseCurrentThreadMemory", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_ReleaseCurrentThreadMemory();
 
-		// crash dump recording functions
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_WriteMiniDump", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_WriteMiniDump(uint uStructuredExceptionCode, IntPtr pvExceptionInfo, uint uBuildID);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SetMiniDumpComment", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_SetMiniDumpComment(InteropHelp.UTF8StringHandle pchMsg);
 
-		// steam callback and call-result helpers
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_RunCallbacks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_RunCallbacks();
 
@@ -84,19 +81,9 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_UnregisterCallResult", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_UnregisterCallResult(IntPtr pCallback, ulong hAPICall);
 
-		// steamclient.dll private wrapper functions
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_IsSteamRunning", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
 		public static extern bool SteamAPI_IsSteamRunning();
-
-		[DllImport(NativeLibraryName, EntryPoint = "Steam_RunCallbacks", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Steam_RunCallbacks(HSteamPipe hSteamPipe, [MarshalAs(UnmanagedType.I1)] bool bGameServerCallbacks);
-
-		[DllImport(NativeLibraryName, EntryPoint = "Steam_RegisterInterfaceFuncs", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void Steam_RegisterInterfaceFuncs(IntPtr hModule);
-
-		[DllImport(NativeLibraryName, EntryPoint = "Steam_GetHSteamUserCurrent", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int Steam_GetHSteamUserCurrent();
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_GetSteamInstallPath", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SteamAPI_GetSteamInstallPath();
@@ -107,7 +94,6 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SetTryCatchCallbacks", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_SetTryCatchCallbacks([MarshalAs(UnmanagedType.I1)] bool bTryCatchCallbacks);
 
-		// steam_api_internal.h
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_GetHSteamUser", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int SteamAPI_GetHSteamUser();
 
@@ -122,6 +108,19 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SetBreakpadAppID", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_SetBreakpadAppID(uint unAppID);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ManualDispatch_Init", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_ManualDispatch_Init();
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ManualDispatch_RunFrame", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_ManualDispatch_RunFrame(HSteamPipe hSteamPipe);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ManualDispatch_GetNextCallback", CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.I1)]
+		public static extern bool SteamAPI_ManualDispatch_GetNextCallback(HSteamPipe hSteamPipe, IntPtr pCallbackMsg);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ManualDispatch_FreeLastCallback", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_ManualDispatch_FreeLastCallback(HSteamPipe hSteamPipe);
 #endregion
 #region steam_gameserver.h
 		[DllImport(NativeLibraryName, EntryPoint = "SteamGameServer_InitSafe", CallingConvention = CallingConvention.Cdecl)]

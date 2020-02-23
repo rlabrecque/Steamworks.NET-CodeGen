@@ -52,6 +52,10 @@ g_TypeDict = {
     "ISteamMatchmakingPlayersResponse *": "IntPtr",
     "ISteamMatchmakingRulesResponse *": "IntPtr",
     #"MatchMakingKeyValuePair_t **": "IntPtr", HACK in parse_args()
+
+    "ControllerAnalogActionData_t": "InputAnalogActionData_t",
+    "ControllerDigitalActionData_t": "InputDigitalActionData_t",
+    "ControllerMotionData_t": "InputMotionData_t",
 }
 
 g_WrapperArgsTypeDict = {
@@ -432,7 +436,6 @@ HEADER = None
 
 g_NativeMethods = []
 g_Output = []
-g_funcNames = {}
 g_Typedefs = None
 
 def main(parser):
@@ -484,8 +487,6 @@ def parse(f):
 
 
 def parse_interface(f, interface):
-    g_funcNames.clear()
-
     if "GameServer" in interface.name and interface.name != "ISteamGameServer" and interface.name != "ISteamGameServerStats":
         bGameServerVersion = True
     else:
@@ -534,14 +535,12 @@ def parse_interface(f, interface):
     g_Output.append("\t}")
 
 def parse_func(f, interface, func):
-    if func.name in g_funcNames:
-        prevNum = g_funcNames[func.name]
-        g_funcNames[func.name] += 1
-        func.name += str(prevNum)
-    else:
-        g_funcNames[func.name] = 0
-
     strEntryPoint = interface.name + '_' + func.name
+
+    for attr in func.attributes:
+        if attr.name == "STEAM_FLAT_NAME":
+            strEntryPoint = interface.name + '_' + attr.value
+            break
 
     if "GameServer" in interface.name and interface.name != "ISteamGameServer" and interface.name != "ISteamGameServerStats":
         bGameServerVersion = True
@@ -633,9 +632,16 @@ def parse_func(f, interface, func):
         functionBody[-1] += " {"
 
     if bGameServerVersion:
-        functionBody.append("{0}{1}{2}NativeMethods.{3}({4});".format(indentlevel, strReturnable, strCast, interface.name.replace("GameServer", "") + '_' + func.name, argnames))
+        strEntryPoint2 = interface.name.replace("GameServer", "") + '_' + func.name
+
+        for attr in func.attributes:
+            if attr.name == "STEAM_FLAT_NAME":
+                strEntryPoint2 = interface.name.replace("GameServer", "") + '_' + attr.value
+                break
     else:
-        functionBody.append("{0}{1}{2}NativeMethods.{3}({4});".format(indentlevel, strReturnable, strCast, strEntryPoint, argnames))
+        strEntryPoint2 = strEntryPoint
+
+    functionBody.append("{0}{1}{2}NativeMethods.{3}({4});".format(indentlevel, strReturnable, strCast, strEntryPoint2, argnames))
 
     if outstringargs:
         retcmp = "ret != 0"
