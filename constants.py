@@ -109,16 +109,22 @@ g_SkippedConstants = (
     "k_uManifestIdInvalid",
     "k_ulSiteIdInvalid",
 
-    """ TODO: Skip all these once we have typedef autogen hooked up.
-    public const ulong k_GIDNil = 0xffffffffffffffffull;
-    public const ulong k_TxnIDNil = k_GIDNil;
-    public const ulong k_TxnIDUnknown = 0;
-    public const int k_uPackageIdFreeSub = 0x0;
-    public const int k_uPackageIdInvalid = 0xFFFFFFFF;
-    public const ulong k_ulAssetClassIdInvalid = 0x0;
-    public const int k_uPhysicalItemIdInvalid = 0x0;
-    public const int k_uCellIDInvalid = 0xFFFFFFFF;
-    public const int k_uPartnerIdInvalid = 0;"""
+    # steamnetworkingtypes.h
+    "k_HSteamNetConnection_Invalid",
+    "k_HSteamListenSocket_Invalid",
+    "k_HSteamNetPollGroup_Invalid",
+    "k_SteamDatagramPOPID_dev",
+
+    #TODO: Skip all these once we have typedef autogen hooked up.
+    #public const ulong k_GIDNil = 0xffffffffffffffffull;
+    #public const ulong k_TxnIDNil = k_GIDNil;
+    #public const ulong k_TxnIDUnknown = 0;
+    #public const int k_uPackageIdFreeSub = 0x0;
+    #public const int k_uPackageIdInvalid = 0xFFFFFFFF;
+    #public const ulong k_ulAssetClassIdInvalid = 0x0;
+    #public const int k_uPhysicalItemIdInvalid = 0x0;
+    #public const int k_uCellIDInvalid = 0xFFFFFFFF;
+    #public const int k_uPartnerIdInvalid = 0;
 )
 
 g_SkippedTypedefs = (

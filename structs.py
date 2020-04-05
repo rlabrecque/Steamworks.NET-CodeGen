@@ -10,6 +10,7 @@ g_TypeConversionDict = {
 
     "char": "string",
     "int32": "int",
+    "int64": "long",
 
     "uint8 *": "IntPtr",
     "const char *": "string",

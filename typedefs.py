@@ -17,9 +17,10 @@ g_PrettyFilenames = {
 g_TypeDict = {
     "int16": "short",
     "int32": "int",
+    "int64": "long",
     "uint32": "uint",
     "uint64": "ulong",
-    "void*": "System.IntPtr"
+    "void*": "System.IntPtr",
 }
 
 g_UnusedTypedefs = [
@@ -144,6 +145,18 @@ g_ReadOnlyValues = {
     ]),
 
     "PartyBeaconID_t": OrderedDict([
+        ("Invalid", "0"),
+    ]),
+
+    "HSteamNetConnection": OrderedDict([
+        ("Invalid", "0"),
+    ]),
+
+    "HSteamListenSocket": OrderedDict([
+        ("Invalid", "0"),
+    ]),
+
+    "HSteamNetPollGroup": OrderedDict([
         ("Invalid", "0"),
     ]),
 }
