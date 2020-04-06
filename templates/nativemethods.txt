@@ -31,6 +31,8 @@
 	#error You must define STEAMWORKS_WIN or STEAMWORKS_LIN_OSX if you're not using Unity.
 #endif
 
+#define STEAMNETWORKINGSOCKETS_ENABLE_SDR
+
 using System.Runtime.InteropServices;
 using IntPtr = System.IntPtr;
 
@@ -102,6 +104,12 @@ namespace Steamworks {
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamInternal_CreateInterface", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr SteamInternal_CreateInterface(InteropHelp.UTF8StringHandle ver);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamInternal_FindOrCreateUserInterface", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamInternal_FindOrCreateUserInterface(HSteamUser hSteamUser, InteropHelp.UTF8StringHandle pszVersion);
+
+		[DllImport(NativeLibraryName, EntryPoint = "SteamInternal_FindOrCreateGameServerInterface", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamInternal_FindOrCreateGameServerInterface(HSteamUser hSteamUser, InteropHelp.UTF8StringHandle pszVersion);
 
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_UseBreakpadCrashHandler", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_UseBreakpadCrashHandler(InteropHelp.UTF8StringHandle pchVersion, InteropHelp.UTF8StringHandle pchDate, InteropHelp.UTF8StringHandle pchTime, [MarshalAs(UnmanagedType.I1)] bool bFullMemoryDumps, IntPtr pvContext, IntPtr m_pfnPreMinidumpCallback);

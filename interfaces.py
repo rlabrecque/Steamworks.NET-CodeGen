@@ -38,6 +38,9 @@ g_TypeDict = {
     "int64": "long",
     "uint64": "ulong",
     "uint64_t": "ulong",
+    "size_t": "ulong",
+
+    "intptr_t": "IntPtr",
 
     # Only used in FileLoadDialogResponse
     "const char **": "IntPtr",
@@ -56,6 +59,9 @@ g_TypeDict = {
     "ControllerAnalogActionData_t": "InputAnalogActionData_t",
     "ControllerDigitalActionData_t": "InputDigitalActionData_t",
     "ControllerMotionData_t": "InputMotionData_t",
+
+    "SteamNetworkPingLocation_t &": "out SteamNetworkPingLocation_t",
+    "const SteamNetworkPingLocation_t &": "ref SteamNetworkPingLocation_t",
 }
 
 g_WrapperArgsTypeDict = {
@@ -76,6 +82,7 @@ g_ReturnTypeDict = {
     # Steamworks types
     "CSteamID": "ulong",
     "gameserveritem_t *": "IntPtr",
+    "SteamNetworkingMessage_t *": "IntPtr",
 
     # TODO: UGH
     "ISteamAppList *": "IntPtr",
@@ -368,6 +375,15 @@ g_SpecialArgsDict = {
     "ISteamClient_SetLocalIPBinding": {
         "unIP": "ref SteamIPAddress_t",
     },
+
+    "ISteamNetworkingUtils_SteamNetworkingIPAddr_ToString": {
+        "addr": "ref SteamNetworkingIPAddr",
+        "cbBuf": "uint",
+    },
+    "ISteamNetworkingUtils_SteamNetworkingIdentity_ToString": {
+        "identity": "ref SteamNetworkingIdentity",
+        "cbBuf": "uint",
+    },
 }
 
 g_SpecialWrapperArgsDict = {
@@ -612,11 +628,14 @@ def parse_func(f, interface, func):
         strReturnable += "(CSteamID)"
 
     if outstringargs:
-        strReturnable = returntype + " ret = "
+        if returntype != "void":
+            strReturnable = returntype + " ret = "
+
         for i, a in enumerate(outstringargs):
             if not outstringsize:
                 functionBody.append("\t\t\tIntPtr " + a + "2;")
                 continue
+
             cast = ""
             if outstringsize[i].type != "int":
                 cast = "(int)"
@@ -651,10 +670,16 @@ def parse_func(f, interface, func):
             retcmp = "ret != -1"
         retcmp = g_SpecialOutStringRetCmp.get(strEntryPoint, retcmp)
         for a in outstringargs:
-            functionBody.append(indentlevel + a + " = " + retcmp + " ? InteropHelp.PtrToStringUTF8(" + a + "2) : null;")
+            if returntype == "void":
+                functionBody.append(indentlevel + a + " = InteropHelp.PtrToStringUTF8(" + a + "2);")
+            else:
+                functionBody.append(indentlevel + a + " = " + retcmp + " ? InteropHelp.PtrToStringUTF8(" + a + "2) : null;")
+
             if strEntryPoint != "ISteamRemoteStorage_GetUGCDetails":
                 functionBody.append(indentlevel + "Marshal.FreeHGlobal(" + a + "2);")
-        functionBody.append(indentlevel + "return ret;")
+
+        if returntype != "void":
+            functionBody.append(indentlevel + "return ret;")
 
     if stringargs:
         functionBody.append("\t\t\t}")
