@@ -18,6 +18,7 @@ g_TypeDict = {
     "unsigned int": "int",
 
     "uint64": "ulong",
+    "size_t": "int",
 }
 
 g_SkippedDefines = (
@@ -61,6 +62,7 @@ g_SkippedDefines = (
     "S_CALLTYPE",
     "POSIX",
     "STEAM_PRIVATE_API(",
+    "STEAMNETWORKINGSOCKETS_INTERFACE",
 
     # We just create multiple versions of this struct, Valve renamed them.
     "ControllerAnalogActionData_t",

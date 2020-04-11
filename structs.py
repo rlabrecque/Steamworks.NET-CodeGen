@@ -81,6 +81,10 @@ g_SpecialFieldTypes = {
         "bState":  "byte", # Originally bool
         "bActive": "byte", # Originally bool
     },
+
+    "SteamDatagramGameCoordinatorServerLogin": {
+        "m_appData": "byte", # Originally char
+    },
 }
 
 g_ExplicitStructs = {

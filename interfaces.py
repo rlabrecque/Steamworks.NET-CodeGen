@@ -12,6 +12,13 @@ g_SkippedFiles = (
     "isteamps3overlayrenderer.h",
 )
 
+g_SkippedInterfaces = (
+    "ISteamNetworkingConnectionCustomSignaling",
+    "ISteamGameServerNetworkingConnectionCustomSignaling",
+    "ISteamNetworkingCustomSignalingRecvContext",
+    "ISteamGameServerNetworkingCustomSignalingRecvContext",
+)
+
 g_TypeDict = {
     # Built in types
     "char*": "IntPtr",
@@ -62,6 +69,13 @@ g_TypeDict = {
 
     "SteamNetworkPingLocation_t &": "out SteamNetworkPingLocation_t",
     "const SteamNetworkPingLocation_t &": "ref SteamNetworkPingLocation_t",
+    "SteamNetworkingIPAddr &": "out SteamNetworkingIPAddr",
+    "const SteamNetworkingIPAddr &": "ref SteamNetworkingIPAddr",
+    "const SteamNetworkingConfigValue_t *": "SteamNetworkingConfigValue_t[]",
+    "const SteamNetworkingIdentity &": "ref SteamNetworkingIdentity",
+    "const SteamNetworkingIdentity *": "ref SteamNetworkingIdentity",
+    "SteamNetworkingErrMsg &": "out SteamNetworkingErrMsg",
+    "const SteamNetConnectionInfo_t &": "ref SteamNetConnectionInfo_t",
 }
 
 g_WrapperArgsTypeDict = {
@@ -380,9 +394,27 @@ g_SpecialArgsDict = {
         "addr": "ref SteamNetworkingIPAddr",
         "cbBuf": "uint",
     },
+    "ISteamGameServerNetworkingUtils_SteamNetworkingIPAddr_ToString": {
+        "addr": "ref SteamNetworkingIPAddr",
+        "cbBuf": "uint",
+    },
+
     "ISteamNetworkingUtils_SteamNetworkingIdentity_ToString": {
         "identity": "ref SteamNetworkingIdentity",
         "cbBuf": "uint",
+    },
+    "ISteamGameServerNetworkingUtils_SteamNetworkingIdentity_ToString": {
+        "identity": "ref SteamNetworkingIdentity",
+        "cbBuf": "uint",
+    },
+
+    "ISteamNetworkingSockets_SendMessages": {
+        "pMessages": "SteamNetworkingMessage_t[]",
+        "pOutMessageNumberOrResult": "long[]",
+    },
+    "ISteamGameServerNetworkingSockets_SendMessages": {
+        "pMessages": "SteamNetworkingMessage_t[]",
+        "pOutMessageNumberOrResult": "long[]",
     },
 }
 
@@ -436,6 +468,8 @@ g_SpecialOutStringRetCmp = {
 g_SkippedTypedefs = (
     "uint8",
     "int8",
+    "int16",
+    "uint16",
     "int32",
     "uint32",
     "int64",
@@ -488,13 +522,11 @@ def parse(f):
 
     del g_Output[:]
     for interface in f.interfaces:
-        print(" - " + interface.name)
-        g_Output.append('\tpublic static class ' + interface.name[1:] + ' {')
         parse_interface(f, interface)
 
     if g_Output:
         with open('autogen/' + os.path.splitext(f.name)[0] + '.cs', 'wb') as out:
-            if f.name in ["isteamnetworkingutils.h", "isteamnetworkingsockets.h"]:
+            if f.name in ["isteamnetworkingutils.h", "isteamnetworkingsockets.h", "isteamgameservernetworkingutils.h", "isteamgameservernetworkingsockets.h"]:
                 out.write(bytes("#define STEAMNETWORKINGSOCKETS_ENABLE_SDR\n", "utf-8"))
             out.write(bytes(HEADER, "utf-8"))
             out.write(bytes("namespace Steamworks {\n", "utf-8"))
@@ -505,10 +537,17 @@ def parse(f):
 
 
 def parse_interface(f, interface):
+    if interface.name in g_SkippedInterfaces:
+        return
+
+    print(" - " + interface.name)
+    g_Output.append('\tpublic static class ' + interface.name[1:] + ' {')
+
     if "GameServer" in interface.name and interface.name != "ISteamGameServer" and interface.name != "ISteamGameServerStats":
         bGameServerVersion = True
     else:
         bGameServerVersion = False
+
 
     if not bGameServerVersion:
         g_NativeMethods.append("#region " + interface.name[1:])
@@ -517,16 +556,21 @@ def parse_interface(f, interface):
     for func in interface.functions:
         if func.ifstatements != lastIfStatement:
             if lastIfStatement is not None:
-                g_NativeMethods[-1] = "#endif"
+                if not bGameServerVersion:
+                    g_NativeMethods[-1] = "#endif"
+
                 g_Output[-1] = "#endif"
                 lastIfStatement = None
+
                 if func.ifstatements:
                     g_NativeMethods.append("#if " + func.ifstatements.replace("defined(", "").replace(")", ""))
                     g_Output.append("#if " + func.ifstatements.replace("defined(", "").replace(")", ""))
                     lastIfStatement = func.ifstatements
             elif func.ifstatements:
-                g_NativeMethods[-1] = "#if " + func.ifstatements.replace("defined(", "").replace(")", "")
-                g_NativeMethods[-1] = "#if " + func.ifstatements.replace("defined(", "").replace(")", "")
+                if not bGameServerVersion:
+                    g_NativeMethods[-1] = "#if " + func.ifstatements.replace("defined(", "").replace(")", "")
+                    g_NativeMethods[-1] = "#if " + func.ifstatements.replace("defined(", "").replace(")", "")
+
                 g_Output[-1] = "#if " + func.ifstatements.replace("defined(", "").replace(")", "")
                 lastIfStatement = func.ifstatements
 
