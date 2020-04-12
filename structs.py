@@ -198,25 +198,33 @@ def parse_field(field, structname):
     if explicit:
         lines.append("\t\t[FieldOffset(" + explicit[field.name] + ")]")
 
-
-    if field.arraysize:
-        constantsstr = "Constants."
-        if field.arraysize.isdigit():
-            constantsstr = ""
-        if fieldtype == "string":
-            lines.append("\t\t[MarshalAs(UnmanagedType.ByValTStr, SizeConst = " + constantsstr + field.arraysize + ")]")
-        else:
-            lines.append("\t\t[MarshalAs(UnmanagedType.ByValArray, SizeConst = " + constantsstr + field.arraysize + ")]")
-            fieldtype += "[]"
-
     comment = ""
     if field.c.rawlinecomment:
         comment = field.c.rawlinecomment
 
+    if field.arraysize:
+        constantsstr = ""
+        if not field.arraysize.isdigit():
+            constantsstr = "Constants."
+
+        if fieldtype == "byte[]":
+            lines.append("\t\t[MarshalAs(UnmanagedType.ByValArray, SizeConst = " + constantsstr + field.arraysize + ")]")
+        else:
+            lines.append("\t\t[MarshalAs(UnmanagedType.ByValArray, SizeConst = " + constantsstr + field.arraysize + ")]")
+            fieldtype += "[]"
+
     if fieldtype == "bool":
         lines.append("\t\t[MarshalAs(UnmanagedType.I1)]")
 
-    lines.append("\t\tpublic " + fieldtype + " " + field.name + ";" + comment)
+    if field.arraysize and fieldtype == "string[]":
+        lines.append("\t\tprivate byte[] " + field.name + "_;")
+        lines.append("\t\tpublic string " + field.name + comment)
+        lines.append("\t\t{")
+        lines.append("\t\t\tget { return InteropHelp.ByteArrayToStringUTF8(" + field.name + "_); }")
+        lines.append("\t\t\tset { InteropHelp.StringToByteArrayUTF8(value, " + field.name + "_, " + constantsstr + field.arraysize + "); }")
+        lines.append("\t\t}")
+    else:
+        lines.append("\t\tpublic " + fieldtype + " " + field.name + ";" + comment)
 
     return lines
 
@@ -224,6 +232,8 @@ def insert_constructors(name):
     lines = []
     if name == "MatchMakingKeyValuePair_t":
         lines.append("\t\tMatchMakingKeyValuePair_t(string strKey, string strValue) {")
+        lines.append("\t\t\tm_szKey_ = null;")
+        lines.append("\t\t\tm_szValue_ = null;")
         lines.append("\t\t\tm_szKey = strKey;")
         lines.append("\t\t\tm_szValue = strValue;")
         lines.append("\t\t}")
