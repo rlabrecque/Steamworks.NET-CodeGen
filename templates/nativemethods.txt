@@ -274,7 +274,7 @@ namespace Steamworks {
 #endregion
 #region SteamNetworkingMessage_t Accessors
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SteamNetworkingMessage_t_Release", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SteamAPI_SteamNetworkingMessage_t_Release(ref SteamNetworkingMessage_t self);
+		public static extern void SteamAPI_SteamNetworkingMessage_t_Release(IntPtr self);
 #endregion
 #region ISteamNetworkingConnectionCustomSignaling Accessors
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingConnectionCustomSignaling_SendSignal", CallingConvention = CallingConvention.Cdecl)]

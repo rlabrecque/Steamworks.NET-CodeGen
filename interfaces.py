@@ -76,6 +76,7 @@ g_TypeDict = {
     "const SteamNetworkingIdentity *": "ref SteamNetworkingIdentity",
     "SteamNetworkingErrMsg &": "out SteamNetworkingErrMsg",
     "const SteamNetConnectionInfo_t &": "ref SteamNetConnectionInfo_t",
+    "SteamNetworkingMessage_t **": "IntPtr[]",
 }
 
 g_WrapperArgsTypeDict = {
