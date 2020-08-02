@@ -55,6 +55,11 @@ g_SkippedStructs = (
     "ControllerDigitalActionData_t",
     "ControllerMotionData_t",
 
+    # String formatting functions. We just use .ToString() instead.
+    "SteamNetworkingIdentityRender",
+    "SteamNetworkingIPAddrRender",
+    "SteamNetworkingPOPIDRender",
+
     # CustomType
     "SteamIPAddress_t",
 )
