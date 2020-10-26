@@ -12,6 +12,7 @@ g_PrettyFilenames = {
     "SteamRemotestorage": "SteamRemoteStorage",
     "SteamUgc": "SteamUGC",
     "SteamUserstats": "SteamUserStats",
+    "SteamRemoteplay": "SteamRemotePlay",
 }
 
 g_TypeDict = {
