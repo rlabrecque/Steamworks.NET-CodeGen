@@ -209,6 +209,8 @@ def parse_field(field, structname):
 
         if fieldtype == "byte[]":
             lines.append("\t\t[MarshalAs(UnmanagedType.ByValArray, SizeConst = " + constantsstr + field.arraysize + ")]")
+        if structname == "MatchMakingKeyValuePair_t":
+            lines.append("\t\t[MarshalAs(UnmanagedType.ByValTStr, SizeConst = " + constantsstr + field.arraysize + ")]")
         else:
             lines.append("\t\t[MarshalAs(UnmanagedType.ByValArray, SizeConst = " + constantsstr + field.arraysize + ")]")
             fieldtype += "[]"
@@ -232,11 +234,10 @@ def insert_constructors(name):
     lines = []
     if name == "MatchMakingKeyValuePair_t":
         lines.append("\t\tMatchMakingKeyValuePair_t(string strKey, string strValue) {")
-        lines.append("\t\t\tm_szKey_ = null;")
-        lines.append("\t\t\tm_szValue_ = null;")
         lines.append("\t\t\tm_szKey = strKey;")
         lines.append("\t\t\tm_szValue = strValue;")
         lines.append("\t\t}")
+        lines.append("")
 
     return lines
 
