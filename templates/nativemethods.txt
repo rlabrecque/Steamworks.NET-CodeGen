@@ -280,20 +280,20 @@ namespace Steamworks {
 		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_SteamNetworkingMessage_t_Release", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void SteamAPI_SteamNetworkingMessage_t_Release(IntPtr self);
 #endregion
-#region ISteamNetworkingConnectionCustomSignaling Accessors
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingConnectionCustomSignaling_SendSignal", CallingConvention = CallingConvention.Cdecl)]
+#region ISteamNetworkingConnectionSignaling Accessors
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingConnectionSignaling_SendSignal", CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.I1)]
-		public static extern bool SteamAPI_ISteamNetworkingConnectionCustomSignaling_SendSignal(ref ISteamNetworkingConnectionCustomSignaling self, HSteamNetConnection hConn, ref SteamNetConnectionInfo_t info, IntPtr pMsg, int cbMsg);
+		public static extern bool SteamAPI_ISteamNetworkingConnectionSignaling_SendSignal(ref ISteamNetworkingConnectionSignaling self, HSteamNetConnection hConn, ref SteamNetConnectionInfo_t info, IntPtr pMsg, int cbMsg);
 
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingConnectionCustomSignaling_Release", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SteamAPI_ISteamNetworkingConnectionCustomSignaling_Release(ref ISteamNetworkingConnectionCustomSignaling self);
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingConnectionSignaling_Release", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_ISteamNetworkingConnectionSignaling_Release(ref ISteamNetworkingConnectionSignaling self);
 #endregion
-#region ISteamNetworkingCustomSignalingRecvContext Accessors
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingCustomSignalingRecvContext_OnConnectRequest", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr SteamAPI_ISteamNetworkingCustomSignalingRecvContext_OnConnectRequest(ref ISteamNetworkingCustomSignalingRecvContext self, HSteamNetConnection hConn, ref SteamNetworkingIdentity identityPeer);
+#region ISteamNetworkingSignalingRecvContext Accessors
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingSignalingRecvContext_OnConnectRequest", CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr SteamAPI_ISteamNetworkingSignalingRecvContext_OnConnectRequest(ref ISteamNetworkingSignalingRecvContext self, HSteamNetConnection hConn, ref SteamNetworkingIdentity identityPeer, int nLocalVirtualPort);
 
-		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingCustomSignalingRecvContext_SendRejectionSignal", CallingConvention = CallingConvention.Cdecl)]
-		public static extern void SteamAPI_ISteamNetworkingCustomSignalingRecvContext_SendRejectionSignal(ref ISteamNetworkingCustomSignalingRecvContext self, ref SteamNetworkingIdentity identityPeer, IntPtr pMsg, int cbMsg);
+		[DllImport(NativeLibraryName, EntryPoint = "SteamAPI_ISteamNetworkingSignalingRecvContext_SendRejectionSignal", CallingConvention = CallingConvention.Cdecl)]
+		public static extern void SteamAPI_ISteamNetworkingSignalingRecvContext_SendRejectionSignal(ref ISteamNetworkingSignalingRecvContext self, ref SteamNetworkingIdentity identityPeer, IntPtr pMsg, int cbMsg);
 #endregion
 #region steamencryptedappticket.h
 		[DllImport(NativeLibrary_SDKEncryptedAppTicket, CallingConvention = CallingConvention.Cdecl)]

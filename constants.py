@@ -69,8 +69,6 @@ g_SkippedDefines = (
     "ControllerDigitalActionData_t",
     "ControllerMotionData_t",
 
-    # TODO: Skip all these once we have typedef autogen hooked up.
-    #"MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE",
     #"INVALID_HTTPREQUEST_HANDLE",
 )
 
